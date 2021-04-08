@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>axios的处理链流程</title>
+</head>
+<body>
+
+  <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+
+  <script>
+    axios.interceptors.request.use(
+      config => {
+        console.log('interceptor request1 resolved()', config);
+        return config;
+      },
+      error => {
+        console.log('interceptor request1 rejected()', config);
+        return Promise.reject(error);
+      }
+    );
+
+    
+    axios.interceptors.request.use(
+      config => {
+        console.log('interceptor request2 resolved()', config);
+        return config;
+      },
+      error => {
+        console.log('interceptor request2 rejected()', config);
+        return Promise.reject(error);
+      }
+    );
+
+    
+    axios.interceptors.response.use(
+      response => {
+        console.log('interceptor response1 resolved()');
+        return response;
+      },
+      error => {
+        console.log('interceptor response1 rejected()');
+        return Promise.reject(error);
+      }
+    );
+
+    
+    axios.interceptors.response.use(
+      response => {
+        console.log('interceptor response2 resolved()');
+        return response;
+      },
+      error => {
+        console.log('interceptor response2 rejected()');
+        return Promise.reject(error);
+      }
+    );
+    
+    axios.get('http://127.0.0.1:3000/posts/1')
+      .then(
+        response => {
+          console.log('get请求成功了', response.data);
+        }
+      )
+  </script>
+</body>
+</html>

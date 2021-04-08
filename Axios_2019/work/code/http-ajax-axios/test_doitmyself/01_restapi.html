@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_restapi</title>
+</head>
+
+<body>
+
+    <button onclick="testGet()">GET请求</button>
+    <button onclick="testPost()">POST请求</button>
+    <button onclick="testPut()">PUT请求</button>
+    <button onclick="testDelete()">DELETE请求</button>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+    <script>
+        function testGet() {
+            // axios.get('http:127.0.0.1:3000/posts', {
+            //     params: {id: 1}
+            // })
+
+
+            // axios.get('http:127.0.0.1:3000/posts?id=1')
+
+            axios.get('http:127.0.0.1:3000/posts/1')
+                .then(response => {
+                    console.log('axios.get', response);
+                })
+
+            // 
+            // axios的 get 请求，自动会把 第二个参数(配置项)中的参数，拼接到url中，变成query查询模式
+
+            // 说实话， restful api 格式下：get请求中，这个query模式和param模式还是有点搞不清楚
+            // 该如何传参才能明确查询条件的呢？
+            // 参考： https://blog.csdn.net/qq_35075909/article/details/94005211
+        }
+
+        function testPost() {
+            axios.post('http:127.0.0.1:3000/posts', { id: 22, name: 123, gender: 'famale' })
+                .then(response => {
+                    console.log('axios.post', response);
+                })
+
+            // 这里的http:127.0.0.1:3000/posts 后面不能加上其它的参数
+        }
+
+
+
+        function testPut() {
+            axios.put('http:127.0.0.1:3000/posts/22', { id: 26, aa: 11123 })
+                .then(response => {
+                    console.log('axios.put', response);
+                })
+
+            // 这里虽然id想改为 21, 但是没效果，其它的都改了
+            // 而且好像不能修改某一个属性，设置了对象，是整个替换(不过id倒是不是改变)
+        }
+
+
+        try {
+            function testDelete() {
+                axios.delete('http:127.0.0.1:3000/posts/3')
+                    .then(
+                        response => {
+                            console.log('axios.delete', response);
+                        },
+                        reason => {
+                            console.log('出错了吗？', reason);
+                        }
+                    )
+            }
+        } catch (error) {
+            console.log(error, '出了问题');
+
+            // try catch 倒是没进来,因为不是js错误,而是http请求错误,只是进了reason
+        }
+        
+    </script>
+</body>
+
+</html>

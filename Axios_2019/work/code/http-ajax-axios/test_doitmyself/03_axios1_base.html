@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>axios基本使用</title>
+</head>
+
+<body>
+
+  <div>
+    <button onclick="testGet()">GET请求</button>
+    <button onclick="testPost()">POST请求</button>
+    <button onclick="testPut()">PUT请求</button>
+    <button onclick="testDelete()">DELETE请求</button>
+  </div>
+
+  <!-- <script src="./../axios.js"></script> -->
+  <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+  <script>
+    // const axios = require('axios');
+    axios.defaults.baseURL = 'http://127.0.0.1:3000';
+
+    function testGet() {
+      // axios.get('/posts')
+      axios({
+        method: 'GET',
+        url: '/posts/1'
+      })
+        .then(
+          response => {
+            console.log(response.data);
+          }
+        )
+        .catch(
+          error => {
+            console.log('GET resolved', error.message);
+          }
+        )
+    }
+
+    function testPost() {
+      // axios.post('/posts', {
+      //   aaa: '123',
+      //   bbb: '345'
+      // })
+      axios({
+        method: 'POST',
+        url: '/posts',
+        data: {
+          aaa: '123',
+          bbb: '345'
+        }
+      })
+        .then(
+          response => {
+            console.log('POST resolved', response.data);
+          }
+        )
+        .catch(
+          error => {
+            console.log('POST rejected and error is: ' + error.message);
+          }
+        )
+    }
+
+    function testPut() {
+      // axios.put('/posts/33', {
+      //   text: 'test'
+      // })
+      axios({
+        method: 'PUT',
+        url: '/posts/34',
+        data: {
+          ccc: '87'
+        }
+      })
+        .then(
+          response => {
+            console.log('PUT resolved', response.data);
+          }
+        )
+        .catch(
+          error => {
+            console.log('PUT rejected and error is: ' + error.message);
+          }
+        )
+    }
+
+    function testDelete() {
+      // axios.delete('/posts/32')
+      axios({
+        method: 'DELETE',
+        url: '/posts/34'
+      })
+        .then(
+          response => {
+            console.log('DELETE resolved', response.data);
+          }
+        )
+        .catch(
+          error => {
+            console.log('DELETE rejected and error is: ' + error.message);
+          }
+        )
+    }
+  </script>
+</body>
+
+</html>
