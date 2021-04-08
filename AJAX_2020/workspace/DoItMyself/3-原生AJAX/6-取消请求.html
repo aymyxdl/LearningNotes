@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>取消请求</title>
+</head>
+<body>
+    <button>点击发送</button>
+    <button>点击取消</button>
+    <script>
+        //获取元素对象
+        const btns = document.querySelectorAll('button');
+        let x = null;
+
+        btns[0].onclick = function(){
+            x = new XMLHttpRequest();
+            x.open("GET",'http://127.0.0.1:8000/delay');
+            x.send();
+        }
+
+        // abort
+        btns[1].onclick = function(){
+            x.abort();
+        }
+
+        
+
+
+        // 本章1个知识点: 取消发送请求
+        // 这个取消的意思是: 在响应报文还没回来前,取消
+        // 但是我有一个问题: 这个取消有啥用?如果是更改数据库的数据,这个取消有啥用?还能撤销已经修改的操作?
+    </script>
+</body>
+</html>

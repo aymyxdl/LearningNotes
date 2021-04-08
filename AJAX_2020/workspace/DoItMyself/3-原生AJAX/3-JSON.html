@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON响应</title>
+    <style>
+        #result {
+            width: 200px;
+            height: 100px;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="result"></div>
+
+    <script>
+        // 键盘按下事件,发送请求信息
+
+        const result = document.getElementById('result');
+        window.onkeydown = function(event) {
+            const xhr = new XMLHttpRequest();
+
+            // 响应体数据的类型
+            xhr.responseType = 'json';
+
+            xhr.open('GET', 'http://127.0.0.1:8000/json-server');
+
+            // 设置请求头信息
+            // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('a=100&b=200&c=300');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        // result.innerHTML = xhr.response;
+                        // 注意:这里返回的数据不是 json对象格式
+                        // 而是json字符串格式: 字符串
+                        // 所有需要把它转换成json对象格式
+                        // 两种方法:
+                        // 1. 手动转
+                        // const data = JSON.parse(xhr.response);
+
+                        // 2. 在xhr对象中提前设置 响应体数据的类型
+                        // xhr.responseType = 'json'
+                        console.log(xhr.response);
+                    }
+                }
+            }
+        }
+
+        // 本节的只知识点是 处理 JSON 格式的响应体
+        // 2种方式转换
+        // 1. 自己手动转
+        // 2. 自动转,设置 xhr.responseType = 'json'
+    </script>
+</body>
+</html>

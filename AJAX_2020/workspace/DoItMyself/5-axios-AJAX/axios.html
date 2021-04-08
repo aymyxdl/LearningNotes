@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios 发送 AJAX请求</title>
+    <script crossorigin="anonymous" src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script>
+</head>
+
+<body>
+    <button>GET</button>
+    <button>POST</button>
+    <button>AJAX</button>
+
+    <script>
+        // https://github.com/axios/axios
+        const btns = document.querySelectorAll('button');
+
+        //配置 baseURL
+        axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
+        btns[0].onclick = function () {
+            //GET 请求
+            axios.get('/axios-server', {
+                //url 参数
+                params: {
+                    id: 100,
+                    vip: 7
+                },
+                //请求头信息
+                headers: {
+                    name: 'atguigu',
+                    age: 20
+                }
+            }).then(value => {
+                console.log(value);
+            });
+        }
+
+        btns[1].onclick = function () {
+            axios.post('/axios-server', {
+                username: 'admin',
+                password: 'admin'
+            }, {
+                //url 
+                params: {
+                    id: 200,
+                    vip: 9
+                },
+                //请求头参数
+                headers: {
+                    height: 180,
+                    weight: 180,
+                }
+            });
+        }
+    
+        btns[2].onclick = function(){
+            axios({
+                //请求方法
+                method : 'POST',
+                //url
+                url: '/axios-server',
+                //url参数
+                params: {
+                    vip:10,
+                    level:30
+                },
+                //头信息
+                headers: {
+                    a:100,
+                    b:200
+                },
+                //请求体参数
+                data: {
+                    username: 'admin',
+                    password: 'admin'
+                }
+            }).then(response=>{
+                //响应状态码
+                console.log(response.status);
+                //响应状态字符串
+                console.log(response.statusText);
+                //响应头信息
+                console.log(response.headers);
+                //响应体
+                console.log(response.data);
+            })
+        }
+
+        // 本节知识点: 如何使用axios 发送ajax请求 (这里只是初略的讲如何快速使用axios, 详细的axios另外有课程)
+        // axois.get(参数1, 参数2)      (url, config)
+        // 发送请求的方式和 jQuery一样,很简单,都是统一的封装格式
+
+        // 参数1: url地址
+        // 参数2: 是一个对象,里面可以设置更多的信息
+                // 比如 param: {}   这个是 请求的参数 (老师说这个不是请求体,是请求参数, 我有点疑问: 之前不是说请求参数就是请求体吗?)
+                // headers: {}      这个是 请求头 的设置
+
+
+        //  get方式不能设置请求体
+        // 还可以统一配置 baseURL
+        // axios.defaults.baseURL
+
+        // **********
+        // 然后是重点了: jQuery处理返回数据的方式是通过 回调
+        // 而axios 是基于 promise 的 .then处理方式      axios.get('get', { param: {} ... }).then((res) => {...})
+
+
+
+        // ******
+        // axios的post请求
+        // post请求和get请求不一样
+        // axios.post(参数1, 参数2, 参数3)  (url, data, config) 这里的data就是请求体了
+        // 参数1: url地址
+        // 参数2: 请求体
+        // 参数3: 更多配置信息
+
+
+        
+        // ******
+        // axios的通用方法发送请求
+
+
+
+
+
+        // 问题1: 请求参数和请求体到底有什么区别
+        // 问题2: 那个chrome 调试中 network 看到的 OPTION 那个请求和 POST有什么关系?
+    </script>
+</body>
+
+</html>

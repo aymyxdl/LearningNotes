@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重复请求问题</title>
+</head>
+<body>
+    <button>点击发送</button>
+    <script>
+        //获取元素对象
+        const btns = document.querySelectorAll('button');
+        let x = null;
+        //标识变量
+        let isSending = false; // 是否正在发送AJAX请求
+
+        btns[0].onclick = function(){
+            //判断标识变量
+            if(isSending) x.abort();// 如果正在发送, 则取消该请求, 创建一个新的请求
+            x = new XMLHttpRequest();
+            //修改 标识变量的值
+            isSending = true;
+            x.open("GET",'http://127.0.0.1:8000/delay');
+            x.send();
+            x.onreadystatechange = function(){
+                if(x.readyState === 4){
+                    //修改标识变量
+                    isSending = false;
+                }
+            }
+        }
+
+        // abort
+        btns[1].onclick = function(){
+            x.abort();
+        }
+
+        // 本节一个知识点: 取消重复发送的请求
+        // 只要设置一个标记就行,如果当前请求尚未返回,就取消
+        // 同样的问题: 你请求都发过去了,后台可能还在未接收到,取消了还能追回这个http协议不成?
+        // 感觉这是你前端浏览器放弃处理这个请求吧?有点掩耳盗铃的意思
+
+        // 另外,看别人说 设置 节流阀就行, 查一下节流阀是什么
+    </script>
+</body>
+</html>

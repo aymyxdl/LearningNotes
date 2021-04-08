@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch 发送 AJAX请求</title>
+</head>
+<body>
+    
+    <button>AJAX请求</button>
+
+    <script>
+        const btn = document.querySelector('button');
+        btn.onclick= function() {
+            fetch('http://127.0.0.1:8000/fetch-server?vip=10', {
+                method: 'POST',
+                headers: {
+                    name: 'atguigu'
+                },
+                body: 'username=admin&password=admin'
+            }).then(response => {
+                // console.log(response);
+                // return response.text();
+                return response.json();
+            }).then(response => {
+                console.log(response);
+            });
+        }
+
+
+        // 这节的知识点是 使用 fetch函数来发送ajax请求
+        // fetch是js原生的，ES6 新增的 API
+        // fetch(参数1, 参数2)
+        // 第一个参数可以 写 url字符串，也可以写 request对象，不过在实验阶段，不建议使用
+        // 第二个参数则是配置对象
+
+        // 返回的也是一个promise，通过then处理
+        // fetch(...).then(response => { return response.json() }).then(response => {});
+        // 这里需要两次 .then
+    </script>
+</body>
+</html>

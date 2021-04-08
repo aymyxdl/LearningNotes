@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原理演示</title>
+    <style>
+        #result {
+            width: 300px;
+            height: 100px;
+            border: solid 1px #78a;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="result"></div>
+    <script>
+        //处理数据
+        function handle(data) {
+            //获取 result 元素
+            const result = document.getElementById('result');
+            result.innerHTML = data.name;
+        }
+    </script>
+    <!-- <script src="http://127.0.0.1:5500/%E8%AF%BE%E5%A0%82/%E4%BB%A3%E7%A0%81/7-%E8%B7%A8%E5%9F%9F/2-JSONP/js/app.js"></script> -->
+    <script src="http://127.0.0.1:8000/jsonp-server"></script>
+
+    <script>
+        // 跨域
+        // 同源策略(Same-Origin Policy)，是浏览器的一种安全策略。
+        // 同源： 协议、域名、端口号 必须完全相同。 违背同源策略就是跨域。
+
+        // 比如平时本地开始，请求同事的后台接口进行联调，这个时候也是跨越(一般的AJAX也是跨域请求)
+        // 引用网络上的js资源，或者图片，这些也都是跨域
+
+        
+        // 那么如何解决跨域呢？ 有两种方案
+        // 1. JSONP
+        // JSONP(JSON with Padding)，是一个非官方的跨域解决方案，纯粹凭借程序员的聪明
+
+        
+                // JSONP 怎么工作的？
+                // 在网页有一些标签天生具有跨域能力，比如：img link iframe script。 JSONP 就是利用 script 标签的跨域能力来发送请求的。
+                // 通过动态创建一个script标签，然后添加到网页中，通过网页加载script标签，来达到跨域的目的
+
+                // 注意：因为 script 标签引用的js文件，所以格式必须是 前台的代码格式
+                // 所以，这边就需要后端开发人员进行配合，讲返回的数据已 js代码格式返回
+                // 而且，如果要调用方法， 必须事先和前台协商好 前台已有的方法名，不能写错，不然也会出问题：xxx is not a function
+                // jsonp的案例可以看 2-JSONP实践.html
+
+                // jQuery的jsonp方案,我因为不怎么用 jQuery了,所以没自己看
+                
+
+
+        // 2. CORS
+        // CORS（Cross-Origin Resource Sharing），跨域资源共享。官方提出的解决方案
+        // CORS 怎么工作的？ CORS 是通过设置一个响应头来告诉浏览器，该请求允许跨域，浏览器收到该响应 以后就会对响应放行。
+        // 通过 res 来设置响应头，来允许跨域请求
+        // res.set("Access-Control-Allow-Origin","http://127.0.0.1:3000");      // 单独设置某个网站运行跨域
+        // res.set("Access-Control-Allow-Origin","*");                          // 一般来说，更多的是选择这种 * 通配符 让所有网站都允许跨域
+        // 这也是之前ajax能够成功访问的原因，因为我开始，所以的ajax都设置了这个允许跨域的响应头信息
+
+        // file:///C:/Users/Dev/Desktop/dev/code/AJAX_2020/workspace/DoItMyself/3-%E5%8E%9F%E7%94%9FAJAX/1-GET.html
+        // 就比如我的文件是这样打开的,是通过 file协议的
+        // 而ajax协议请求的地址是
+        // xhr.open('GET', 'http://127.0.0.1:8000/server?a=1&b=2&c=3');
+
+        // file 和 http 协议根本不一样,明显就违反了同源策略
+        // 只是因为我的后台(这里用nodejs 的 express充当后台) 返回的响应头设置了 Access-Control-Allow-Origin 参数,才能成功访问
+
+
+        // 这样通过CORS方式返回的数据，不用写成js代码格式,随意都可
+
+
+        // 虽然两种方式都可以解决跨域问题
+        // 不过，都需要后端配合才能解决，单独的前台，无法解决跨域
+    </script>
+</body>
+
+</html>

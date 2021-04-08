@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX GET 请求</title>
+    <style>
+        #result {
+            width: 200px;
+            height: 100px;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+<body>
+    <button class="">点击发送请求</button>
+    <div id="result"></div>
+
+    <script>
+        const btn = document.getElementsByTagName('button')[0];
+        const result = document.getElementById('result');
+        btn.onclick = function () {
+            // 原生 http(ajax) 请求 (那些 $.ajax, axois.get什么的，都是封装好的模块方法)
+            // ajax: Asynchronous Javascript And XML 翻译: 异步 JavaScript 和 XML 
+            // ajax就是http请求,不过是异步的,
+
+            // 分为四步
+
+            // 1. 创建对象  js的原生方法 XMLHttpRequest()
+            const xhr = new XMLHttpRequest();
+
+            console.log(xhr);
+
+
+            // 2. 初始化 设置请求方法(get还是post) 和 url
+            // xhr.open('GET', 'http://127.0.0.1:8000/server');
+
+                // get请求后面加上参数
+                
+            xhr.open('GET', 'http://127.0.0.1:8000/server?a=1&b=2&c=3');
+
+            // 3. 发送
+            xhr.send();
+
+            // 4. 事件绑定：处理服务端返回的结果
+            // on when 当...时候
+            // readystate 是 xhr 对象中的一个属性，表示状态 0 1 2 3 4
+            // 0: 未初始化，最开始就是0
+            // 1: open方法已经调用完毕
+            // 2: send方法已经调用完毕
+            // 3: 服务端返回了部分的结果
+            // 4: 服务端返回了所有的结果
+            // change 改变 状态改变的时候触发
+            // 所以这个函数会触发4次，从0-4的状态变化
+            // (实际上我里面log，发现状态 0 - 1 没有打印)
+            // 这是因为 open 方法在 onreadystatechange 方法设置前就已经完成了
+            // 如果把 onreadystatechange 赋值发到创建xhr后面，就能打印所有的状态了
+            // 另外：我把 onreadystatechange 放在send后面，也能输出2
+            // 感觉 send 的执行周期挺长的？导致状态改变挺慢
+            xhr.onreadystatechange = function() {
+                // console.log(xhr.readyState);
+                // 判断 (服务端返回了所有的结果，我们用4来判断ajax请求结束，3不太合适)
+                if (xhr.readyState === 4) {
+                    // 判断响应状态码 200 404 403 401 500
+                    // 2xx 都是成功
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        // 处理结果
+                        // 结果包括：行 头 空行 体
+                        // 1. 响应行
+                        console.log(xhr.status); // 状态码
+                        console.log(xhr.statusText); // 状态字符串
+                        // 2. 响应头
+                        console.log(xhr.getAllResponseHeaders()); // 所有的响应头
+                        // 4. 响应体
+                        console.log(xhr.response); // 响应体
+
+                        // 设置result的文本,完成数据刷新操作
+                        result.innerHTML = xhr.response;
+                    }
+                }
+            }
+        }
+        // 最后，这里要注意的是，我们发送http请求前，需要先创建对象 xhr
+        // 这个对象很重要，一开始创建的时候，xhr里面就已经预先设置好了 所有的属性
+        // 后面ajax请求返回的结果，不是传统那种回调函数里面有个形参，返回的结果放在形参中
+        // 而是js引擎把返回的结果，全部放在了xhr对象中
+        // xhr对象中，一开始所有的属性都是null 或者 空字符串，可以注释send()，打印一下 xhr看看
+        // 成功请求后,返回的结果一一对应,放在xhr中
+        // xhr这个对象从始至终都需要用到,所有的结果,都在这个对象中
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX GET 请求</title>
+    <style>
+        #result {
+            width: 200px;
+            height: 100px;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="result"></div>
+
+    <script>
+        // 需求: 当鼠标放在div上的时候,就发送post请求
+
+        const result = document.getElementById('result');
+
+        // 两种事件监听方法都可以
+        // result.onmouseover = function () {}
+        result.addEventListener('mouseover', function() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('post', 'http://127.0.0.1:8000/server');
+
+            // 设置请求头信息
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            // 请求头信息必须放在open和send中间
+            // Content-type: 来设置请求体内容的类型
+            // application/x-www-form-urlencoded: 参数查询字符串的类型(这个是固定写法,一般都不用写setRequestHeader,默认会自动设置头信息)
+            // 也可以自定义
+            // xhr.setRequestHeader('name', 'atguigu');
+            // 这样自定义设置会报错，因为需要后端对请求头做处理
+            // 请求头的用处：一般会把身份校验的信息放在头信息里面，传递给服务器，由服务器对参数做提取，然后对身份进行校验
+
+            // post方式如何发送 请求参数呢? 在 send()里面以 字符串的形式设置，请求体就是请求参数
+            // xhr.send();
+            xhr.send('a=100&b=200&c=300');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        result.innerHTML = xhr.response;
+                    }
+                }
+            }
+        })
+
+        // 两个知识点
+        // 本节介绍了如何发送post请求
+        // 以及如何设置 请求头 信息 
+    </script>
+</body>
+
+</html>
