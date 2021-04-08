@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_关于引用变量赋值问题</title>
+</head>
+<body>
+    关于引用变量赋值问题
+        2个引用变量指向同一个对象，通过一个变量修改对象内部数据，另一个变量看到的是修改之后的数据
+        2个引用变量指向同一个对象，让其中一个引用变量指向另一个对象，另一引用变量依然指向前一个对象
+
+<script>
+    var obj1 = {name: 'Tom'};
+    var obj2 = obj1;
+    obj2.age = 12;
+    console.log(obj1.age);  // 12
+    function fn (obj) {
+        obj.name = 'A';     //注意这里的写法，fn2有区别
+    }
+    fn(obj1);
+    console.log(obj2.name); // A
+
+
+    var a = {age: 12};
+    var b = a;
+    a = {name: 'Bob', age: 13}
+    b.age = 14;
+    console.log(b.age, a.name, a.age);  // 14 Bob 13
+
+
+    function fn2 (obj) {
+        obj = {age: 15};
+    }
+    fn2(a);
+
+    console.log(a.age);  // 13
+
+
+    // fn2 的详解
+
+    // 这里设计到函数的形参和实参
+    // fn2(a)   调用方法的时候，是创建了一个新的作用域，这个作用域中创建了一个新的局部变量
+    // 这个局部变量是 形参 obj, 而fn2(a) 传入的实参，其实是执行了 obj = a,
+    // 也就是把实参a 赋值给了 形参obj
+    // 但是要知道，引用类型的赋值，实际上是拷贝了一下地址值
+    // 所以这个时候局部变量(形参)obj 和 实参a 指向了同一个堆地址
+    // 而后来 obj = {age: 15} 这个操作，进行了二次赋值，也就是把 obj 指向的内存地址给改变了
+    // 换成了 对象 {age: 15} 的地址
+    // 这个时候， a 和 obj 已经不再指向同一个地址了，而 a 原来的地址，并没有发生改变
+    // 再然后，方法执行完毕，要释放内存空间
+    // 局部变量 obj(形参) 要被回收
+    // 而obj被回收后，没有其它的变量指向 {age: 15}，
+    // 这个对象也就变成了垃圾对象，后面会被垃圾回收器 回收
+
+    
+    // var a = {name: 'bob'};
+    // function fn2 (obj) {
+    //     console.log(a, obj);
+    //     obj = {age: 15};
+    //     console.log(a, obj);
+    // }
+    // fn2(a);
+    // console.log(a.age, a);
+
+
+</script>
+</body>
+</html>

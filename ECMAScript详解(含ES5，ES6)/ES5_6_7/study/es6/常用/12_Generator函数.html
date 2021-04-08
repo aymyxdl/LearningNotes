@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+  <title>12_Generator函数</title>
+</head>
+<body>
+  
+
+  <script>
+    // 小试牛刀
+    function * myGenerator() {
+      console.log('开始执行');
+      let result = yield 'hello';
+      // yield {a: 'hello'};
+      // yield console.log(123);
+      // yield 1+2;
+      console.log(result);
+      console.log('暂停后,再次执行');
+      yield 'hello';
+      console.log('开始执行');
+      yield 'hello';
+    }
+    myGenerator(); // 返回的是指针对象
+
+    // 方法虽然调用了,但是发现并没有任何的输出语句
+    // 也就是函数内部根本没有执行
+    // 这是 因为 generator生成器函数内部实现的是 iterator接口
+    // 所以,它会接收一个返回值,然后调用next() 方法去执行
+
+    let MG = myGenerator();
+    console.log(MG);
+    // MG.next(); 
+    // next方法执行了,但是发现只执行到了第一句
+    // 并且hello也不知道去哪里了
+
+    // 这是因为 generator函数 会暂停在yield 代码处,并且返回 yield后面的 字符串 或者 表达式执行的结果
+    // 可以将 yield 'hello' 换成 yield console.log(123); 或者换成 yield 1+2;
+    // 然后接收返回结果看看
+    // 而且结果在返回形式和 generator 返回的结果一样 { value: xxx, done: false } 的形式
+    
+    console.log(MG.next());
+
+    // 另外，可以在代码内部 yield 前面声明个变量，接收一下 yield的返回结果看看
+    // 默认yield 返回的是undefined
+    // 不过，我们在下一次调用 next()方法的时候，可以传入参数，把他赋值给变量，当作上一个yield的返回结果
+
+
+
+    // 如果不传参数，就是undefined
+    // 这样带参数的话，就可以用来实现异步编程， 然后带参数实现效果(一般是用来当作url)
+    console.log(MG.next('test'));
+    console.log(MG.next());
+    console.log(MG.next());
+
+
+
+
+    // 知识点2
+    // 对象的 symbol.iterator属性 指向遍历器对象
+    // 之前给对象部署了 iterator 遍历器 接口
+    // 我们用的是返回闭包，里面有next方法
+    // 现在我们配合 generator生成器 来部署iterator接口
+    
+    let targetData = {
+      name: 'test',
+      age: 12,
+      gender: 'male'
+    }
+
+    // 这是视频讲解老师演示的代码
+    // targetData[Symbol.iterator] = function * () {
+    //   yield 1;
+    //   yield 2;
+    //   yield 3;
+    // }
+
+    // 我们可以扩展一下
+
+    // 另外，这里不能用箭头函数
+    targetData[Symbol.iterator] = function * () {
+      console.log(this);
+      var arr = Object.values(this);
+      let i = 0;
+      yield arr[i++];
+      yield arr[i++];
+      yield arr[i++];
+    }
+    
+
+    for (let i of targetData) {
+      console.log(i);
+    }
+
+    console.log('***********');
+
+    // 或者直接写在函数里面
+    let t1 = {
+      name: 'test',
+      age: 12,
+      gender: 'male',
+      [Symbol.iterator]: function *() {
+        console.log(this);
+        var arr = Object.values(this);
+        let i = 0;
+        yield arr[i++];
+        yield arr[i++];
+        yield arr[i++];
+      }
+    }
+
+    for (let i of t1) {
+      console.log(i);
+    }
+
+    // 知识点3： 使用 generator生成器 完成异步请求
+    // 先请求接口A，A里面的数据当作参数请求接口B
+    function * asyncFunc () {
+      let url = yield getNews('http://localhost:3000/posts/1');
+      yield getNews(url);
+
+      // 多两层嵌套就出问题了
+      // url = yield getNews(url);
+      // yield getNews(url);
+    }
+
+    function getNews(url) {
+      const res = axios.get(url);
+      res.then(res => {
+        url = 'http://localhost:3000/comments?postId=' + res.data.postId;
+        console.log(url);
+        af.next(url);
+      })
+    }
+
+
+    const af = asyncFunc();
+    console.log(af.next());
+
+
+    // 个人观点：这样虽然却是写好了，但是感觉多层嵌套的时候 url会出问题，有的参数返回的结果里面没有，会报错
+    // 老师说 generator 性能上来讲要比 pormise 好一点，因为关键之处在于能够暂停，而且代码量少(不过我觉得绕的特别的晕)
+    // 果然，es7 的 async await才是最终解决方案
+
+    let commentsId = null;
+    let result = null;
+    async function ax1 () {
+      await getComments();
+      await getPosts();
+      console.log(result, '============');
+    }
+
+    function getComments() {
+      // 这里必须返回， 不然就是异步，原因我给忘了，后面复习一下async / await
+      return axios.get('http://localhost:3000/posts/1')
+        .then(res => {
+          commentsId = res.data.postId;
+          console.log(commentsId, '-----------');
+        })
+    }
+
+    function getPosts() {
+      // 这里必须返回， 不然就是异步，原因我给忘了，后面复习一下async / await
+      return axios.get('http://localhost:3000/comments?postId=' + commentsId)
+        .then(res => {
+          result = res.data;
+          console.log(res, '-----------');
+        })
+    }
+
+    ax1();
+
+  </script>
+</body>
+</html>

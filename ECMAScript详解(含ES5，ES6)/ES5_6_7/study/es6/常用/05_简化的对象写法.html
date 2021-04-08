@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05_简化的对象写法</title>
+</head>
+
+<body>
+
+    省略同名的属性值
+    省略方法的function
+
+    <script>
+        const name = 'Ming', age = '18', city = 'Shanghai';
+        //ES5
+        const student = {
+            name: name,
+            age: age,
+            city: city,
+            getName: function () {
+                return this.name;
+            }
+        };
+
+        //ES6
+        const student = {
+            name, // 同名的属性可以省略不写
+            age,
+            city,
+            getName() { // 可以省略函数的function，包括冒号
+                return this.name;
+            }
+        };
+        console.log(student);//{name: "Ming", age: "18", city: "Shanghai"}
+        console.log(student.getName()); // Ming
+    </script>
+</body>
+
+</html>

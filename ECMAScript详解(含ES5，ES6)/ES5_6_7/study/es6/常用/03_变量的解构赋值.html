@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_变量的解构赋值</title>
+</head>
+<body>
+    
+    1. 理解
+        从对象或数组中提取数组，并赋值给变量（多个）
+
+    2. 对象的解构赋值：
+        let {n, a} = {n: 'tom', a:12}
+
+    3. 数组的解构赋值：
+        let [a, b] = [1, 'atguigu']
+
+    4. 用途
+        给多个形参赋值
+
+    <script>
+        let obj = {username: 'kobe', age: 39, gender: 'male'};
+        // let username = obj.username;
+        // let age = obj.age;
+
+        let { username, age } = obj;
+        console.log(username, age);
+
+        let arr = [1, 3, 5, 'abc', true, {}];
+        // 数组因为是根据下标取值的，没有属性名，所以解构的时候，变量名随便写
+        let [a, b, ,d, e] = arr;    // 注意这个解构的写法，
+        console.log(a, b, d, e);
+
+
+        // 用途，给多个形参赋值
+        function foo(obj) {
+            console.log(obj.username, obj.age);
+        }
+        foo(obj);
+
+        // 上面的形参写起来麻烦，替换成下面的这种
+        function foo1({username, age}) {
+            console.log(username, age);
+        }
+        foo1(obj);
+    </script>
+</body>
+</html>

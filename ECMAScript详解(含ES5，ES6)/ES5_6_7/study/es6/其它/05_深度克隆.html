@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>05_深度克隆</title>
+</head>
+
+<body>
+
+
+  <script>
+    // 不会影响原数据 生成新数据
+    let str = 'abc';
+    let str2 = str;
+    console.log(str2); // abc
+    str2 = '';
+    console.log(str); // abc
+
+    let bool1 = true;
+    let bool2 = bool1;
+    bool2 = false;
+    console.log(bool1); // true
+
+    // 拷贝数组/对象，没有生成新的数据而是复制了一份引用，改变会影响原数据
+    let obj = { username: 'wy', age: 18 };
+    let obj1 = obj;
+    console.log(obj1); // {username: 'wy', age: 18}
+    obj1.username = 'wd';
+    console.log(obj.username); // wd
+
+    let arr = [1, 4, { username: 'wy', age: 18 }];
+    let arr2 = arr;
+    arr2[0] = 'abc';
+    console.log(arr); // ['abc', 4, {username: 'wy', age: 18}]
+
+
+
+    // 知识点2
+    /**
+     * 拷贝数据：
+     *    基本数据类型：
+     *        拷贝后会生成一份新的数据，修改拷贝后的数据不会影响原数据
+     * 
+     *    对象/数组
+     *        拷贝后不会生成新的数据，而是拷贝的引用，修改拷贝后的数据会影响原来的数据
+     * 
+     *  拷贝数据的方法：
+     * 
+     *    1. 直接赋值给一个变量     // 浅拷贝
+     *    2. Object.assign()      // 浅拷贝
+     *    3. Array.prototype.concat()   // 浅拷贝
+     *    4. Array.prototype.slice()    // 浅拷贝
+     *    5. JSON.parse(JSON.stringify()) // 深拷贝（拷贝的数据里不能有函数，处理不了）
+     * 
+     *  浅拷贝(对应的都是对象/数组)
+     *    特点：拷贝的引用，修改拷贝以后的数据会影响原数据，使得原数据不安全
+     *  深拷贝(深度克隆)
+     *    特点：拷贝的时候生成新的数据，修改拷贝以后的数据不会影响原数据
+    */
+
+    let o1 = {name: 'kobe'};
+    let o2 = Object.assign(o1);
+    console.log(o2);
+    o2.name = 'wade';
+    console.log(o1);
+
+
+    // ----
+    console.log('***********');
+    let a = [1, 3, {name: 'kobe'}, function f(){}];
+    let a2 = a.concat();
+    console.log(a2);
+    a2[0] = 'a';
+    console.log(a, a2);
+    
+    // 现在来修改对象的属性
+    a2[2].username = 'wade';
+    console.log(a, a2);
+
+    // ----
+    let a3 = a.slice();
+    a3[2].username = 'anverson';
+    console.log(a, a2, a3);
+
+    // ----
+    let a4 = JSON.parse(JSON.stringify(a));
+    a4[2].username = 'duncan';
+    console.log(a, a4);
+
+    // 这样为什么可以实现深克隆？
+    // 因为 stringify 已经转成了 字符串，类型都变了
+    // 另外处理不了函数是因为 JSON.stringify 本来就是要求你放入原生的 对象或者数组
+
+
+
+    // 知识点3：
+
+    /**
+     * 
+     * 思考：如何实现深度拷贝(克隆)
+     * 
+     * 
+     * 
+    */
+
+    // 知识点储备
+    /**
+     * 
+     *  如何判断数据类型： arr---> Array, null ---> Null
+     *  1. typeof返回的数据类型： string, number, boolean, object, function, undefined // 都是小写
+     *  2. Object.prototype.toString.call(obj)： 
+     *      [object String]  [object Null]  [object Undefined]  [object Number]
+     *      [object Boolean]  [object Object] [object Array]  [object Function] // 这后面的是大写开头的
+     *      两种常用方式获取类型：截取字符串或者分割字符串
+     *        str.slice(8, -1);
+     *        str.split(' ')[1].split(']')[0]
+     * 
+    */
+    console.log(typeof 's');
+    console.log(typeof 1);
+    console.log(typeof true);
+    console.log(typeof {});
+    console.log(typeof function f() {});
+    console.log(typeof undefined);
+
+    console.log('*****');
+    let result = 'abcd';
+    console.log(Object.prototype.toString.call(result));
+    result = null;
+    console.log(Object.prototype.toString.call(result));
+    result = undefined
+    console.log(Object.prototype.toString.call(result));
+    result = 1;
+    console.log(Object.prototype.toString.call(result));
+    result = true;
+    console.log(Object.prototype.toString.call(result));
+    result = {};
+    console.log(Object.prototype.toString.call(result));
+    result = [];
+    console.log(Object.prototype.toString.call(result));
+    result = function ff() {};
+    console.log(Object.prototype.toString.call(result));
+    // ES6 以后新增的
+    result = new Set();
+    console.log(Object.prototype.toString.call(result));
+    result = new Map();
+    console.log(Object.prototype.toString.call(result));
+
+
+    //  for in 循环 对象(属性名) 数组(下标)
+
+    let oo = {userName: 'kobe', age: 39};
+    for(let i in oo) {
+      console.log(i);
+    }
+
+    let aa = [1, 3, 'abc'];
+    for(let i in aa) {
+      console.log(i);
+    }
+
+
+    // 定义检测数据类型的功能函数
+    function checkedType(target) {
+      return Object.prototype.toString.call(target).slice(8, -1);
+    }
+
+    // 实现深度克隆  ---> 针对的是对象/数组
+    function clone(target) {
+      // 判断拷贝的数据类型
+      // 初始化变量result 称为最终克隆的数据
+      let result, targetType = checkedType(target);
+
+      if(targetType === 'Object') {
+        result = {};
+      } else if (targetType === 'Array') {
+        result = [];
+      } else {
+        // 这里function会不会有问题
+        return target;
+      }
+
+      // 遍历目标数据
+      for(let i in target) {
+        // 获取遍历数据解构的每一项值
+        // 判断目标解构里的每一项的值是否是对象/数组
+        result[i] = clone(target[i]);
+      }
+      return result;
+    }
+
+
+    const t1 = {a: 1, b:2, c: {aa: 'aa', bb: [3, 4, 6, {aaa: 123, bbb: false}]}}
+    let t2 = clone(t1);
+    t2.a = 'a';
+    t2.c.aa = true;
+    t2.c.bb[2] = undefined;
+    console.log(t1, t2);
+
+    
+  </script>
+</body>
+
+</html>

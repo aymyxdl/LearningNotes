@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05_事件循环模型</title>
+</head>
+<body>
+    
+    1. 所有代码分类
+        初始化执行代码(同步代码)：包含绑定DOM事件监听，设置定时器，发送ajax请求的代码
+        回调执行代码(异步代码)：处理回调逻辑
+
+    2. js引擎执行代码的基本流程
+        初始化代码 ===> 回调代码
+
+    3. 模型的2个重要组成部分
+        事件(定时器/DOM/Ajax)管理模块
+        回调队列
+
+    4. 模型的运转流程
+        执行初始化代码，将事件回调函数及其数据添加到回调队列中
+        当事件发生时，管理模块会将回调函数及其数据添加到回调队列中
+        只有当初始化代码执行完毕后(可能要一定时间)，才会遍历读取回调队列中的回调函数执行
+
+    5. 查看Event Loop图解
+
+<script>
+
+    // callback queue 有很多叫法
+    // 任务队列：task quque
+    // 消息队列：message quque
+    // 事件队列：event quque
+    // 上面的三种说法，其实对应的都是同一个概念： callback queue
+
+
+    // 事件轮询就是 event loop
+    // 这里的轮询是
+    // 从任务队列中循环取出回调函数放入执行栈中处理(一个接一个)(这里针对的是任务队列；也就是callback queue)
+
+    // 事件驱动模型：就是整个那张图
+
+
+    // JS是在浏览器的主线程执行的
+    // 浏览器的分线程处理延时与监听，并放入队列等待主线程执行初始化代码
+
+
+
+    // http://www.ruanyifeng.com/blog/2014/10/event-loop.html
+    // 这是阮一峰的 事件循环 讲解，视频里的图这个文章里面有(2014年就有了)
+    // 但是感觉阮一峰讲的也不是很全面透彻？
+    // 另外
+    // 这个视频教学是2017年5月份的，不知道这个时候有没有宏任务和微任务的说法？
+    // 引入宏任务和微任务，这个event loop就很好理解了
+    // 可能视频和阮一峰那个时候应该还没有promise？因此event loop 的讲解没有更全面的引入宏任务和微任务？
+    // 同时同步代码和异步代码的说法更被大家广泛接受(之前都是叫做初始化代码和回调代码)？
+
+
+    // 一开始是只有 任务和微任务 (task 和 microtask)，并没有宏任务这一说法
+    // 后来，宏任务(macrotask) 的说法是从 Promise/ A+ 的标准里面流传出来的
+</script>
+</body>
+</html>

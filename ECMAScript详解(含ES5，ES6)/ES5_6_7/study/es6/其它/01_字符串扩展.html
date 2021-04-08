@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01_字符串扩展</title>
+</head>
+
+<body>
+
+  1. includes(str)：判断是否包含指定的字符串
+  2. startsWith(str)：判断是否以指定字符串开头
+  3. endsWith(str)：判断是否以指定字符串结尾
+  4. repeat(count)：重复指定次数
+
+  <script>
+    let str = 'asdfghjkl';
+
+    console.log(str.includes('t')); // false
+    console.log(str.includes('a')); // true
+
+    console.log(str.startsWith('a')); // true
+    console.log(str.endsWith('l')); // true
+    console.log(str.repeat(3)); // asdfghjklasdfghjklasdfghjkl
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_理解闭包</title>
+</head>
+<body>
+    
+    1. 如何产生闭包？
+        当一个嵌套的内部(子)函数引用了嵌套的外部(父)函数的变量(函数)时，就产生了闭包<!-- 这是条件 -->
+
+    2. 闭包到底是什么？
+        使用chrome调试查看
+        理解一： 闭包是嵌套的内部函数(绝大部分人)
+        理解二： 包含被引用变量(函数)的对象(极少数人)   <!-- 闭包是内部函数中包含了一个对象([[scope]].closure)，对象中有被引用的变量 -->
+        注意： 闭包存在于嵌套的内部函数中
+
+    3. 产生闭包的条件？
+        函数嵌套
+        内部函数引用了外部函数的数据(变量/函数)
+        <!-- 还有一个：就是必须调用外部函数 -->
+<script>
+    function fn1() {
+        var a = 2;
+        var b = 'abc';
+        function fun3(){}
+        function fn2() {   // 执行函数定义就会产生闭包(不用调用内部函数，不过外部函数必须调用，因为外部不调用，无法执行函数定义:也就是函数提升)
+            console.log(a); // 另外，如果这里是 var fn2 = function(){}, 这样变量的方式，此处不会产生闭包
+        };
+        console.log(1); // var fn2 = function(){}, 这样变量的方式，在这里才会产生闭包，因为变量提升一开始是undefined，这里赋值，才会产生闭包
+        // fn2();       // 这里出了点问题，现在版本的谷歌，看不到函数提升了(变量提升还看得到)，因此导致这行代码注释了，看不到闭包了
+                        // 但是放开的话，不需要执行到这里，变量提升阶段就能看到闭包了
+    }
+
+    fn1();
+
+
+
+
+    // 后面回顾补充：
+    // 嵌套的理解： 只要是嵌套，就算数
+                // 不管是函数声明的形式
+                function a() {
+                    function b () {
+
+                    }
+                }
+
+                // 还是变量声明的形式
+                function a() {
+                    var b = function () {
+
+                    }
+                }
+
+                // 亦或是变量属性的形式
+
+                function a() {
+                    var b = {
+                        a: '',
+                        b: function() {
+
+                        }
+                    }
+                }
+
+                // 这些情况，统统都属于函数的嵌套
+</script>
+</body>
+</html>

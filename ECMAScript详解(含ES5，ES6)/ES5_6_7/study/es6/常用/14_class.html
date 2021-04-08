@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>14_class</title>
+</head>
+<body>
+  
+
+  <script>
+    class Person {
+      // 类的构造方法
+      constructor(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+
+      // 类的一般方法，这些方法都会放在 类 的原型上 (Person.prototype)
+      // calss 里面必须用方法的简写形式
+      showName() {
+        console.log('调用父类的方法');
+        console.log(this.name, this.age);
+      }
+    }
+
+    let person = new Person('kobe', 39);
+    console.log(person);
+    person.showName();
+
+
+    // 知识点： extends
+
+    // 子类
+    class StarPerson extends Person {
+      constructor(name, age, salary) {
+        super(name, age);
+        this.salary = salary;
+      }
+
+      // 父类的方法重写
+      showName() {
+        console.log('调用子类的方法');
+        console.log(this.name, this.age, this.salary);
+      }
+    }
+
+    let p2 = new StarPerson('wade', 33, 100000000);
+    console.log(p2);
+
+    console.log(p2.__proto__ === StarPerson.prototype);
+    console.log(p2.__proto__.__proto__ === Person.prototype);
+    console.log(p2.__proto__.__proto__.__proto__ === Object.prototype);
+    console.log(p2.__proto__.__proto__.__proto__.__proto__ === null);
+  </script>
+</body>
+</html>

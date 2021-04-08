@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_内存管理</title>
+</head>
+<body>
+    问题：JS引擎如何管理内存？
+        1. 内存生命周期
+            分配(小)内存空间，得到它的使用权
+            存储数据，可以反复进行操作
+            释放(小)内存空间
+        2. 释放内存
+            局部变量：函数执行完自动释放
+            对象：成为垃圾对象 ===> 垃圾回收器回收
+    
+<script>
+    var a = 3;
+    var obj = {};  // 这个时候有3个内存空间  a obj {}
+    obj = null;    // 这个时候只有2个了 a obj
+
+    function fn () {
+        var a = 4;          // 这个时候内存并没有b
+    }
+
+
+    fn()  // b是自动释放的，b所指向的对象是在后面的某个时刻，由垃圾回收器回收
+                            // 局部变量只有在函数执行的时候，才会产生
+                            // 函数执行完，这个函数里面所有的局部变量占用的内存空间都会自动释放
+                            // 注意，这个是自动释放，和 回收是两码事
+                            // 回收需要垃圾回收器，而且回收不是立刻的，是在后面的某个时刻
+                            // 释放是立马就干掉了                        
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_JSON对象</title>
+</head>
+<body>
+    1. JSON.stringify(obj/arr)
+        js对象(数组) 转换为 json对象(数组)
+
+    2. JSON.parse(json)
+        json对象(数组) 转换为 js对象(数组)
+    
+    <script>
+
+        var obj = {username: 'kobe'};
+        obj = JSON.stringify(obj);
+        console.log(typeof obj);
+        obj = JSON.parse(obj);
+        console.log(typeof obj);
+
+        // 严格来说，没有json字符串(json格式的本来就是字符串格式)
+        // 只有json对象和json数组
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+
+  <script>
+    //  模拟指针对象(遍历器对象)
+    function myIterator(arr) {  // iterator 接口
+      let i = 0;  // 记录指针的位置
+      return {  // 遍历器对象
+        next: function () {
+          return {
+            value: arr[i++],
+            done: i > arr.length,
+          }
+        }
+      }
+    }
+
+    // 准备一个数组
+    let arr = [1, 4, 65, 'abc'];
+    let iteratorObj = myIterator(arr);
+    console.log(iteratorObj.next());
+    console.log(iteratorObj.next());
+    console.log(iteratorObj.next());
+    console.log(iteratorObj.next());
+    console.log(iteratorObj.next());
+    console.log(iteratorObj.next());
+    console.log(iteratorObj.next());
+    console.log(iteratorObj.next());
+    console.log('-------------');
+
+
+    // 将iterator接口部署到指定的数据类型上，可以使用 for of去遍历循环
+    // 数组， 字符串， arguments， set容器， map容器
+
+    for(let i of arr) {
+      console.log(i); // 1 4 65 abc
+    }
+
+    // string可以使用 for of 遍历
+    let str = 'abcdefg'
+    for(let i of str) {
+      console.log(i); // a b c d e f g
+    }
+
+    // arguments可以使用 for of 遍历
+    function fun() {
+      for(let i of arguments) {
+        console.log(i); // 1 4 65 abc
+      }
+    }
+    fun(1, 4, 65, 'abc');
+
+    // 但是 arguments不可以使用 forEach 遍历（因为它是伪数组）
+
+
+    // object不可以使用 for of 遍历（因为它没有部署iterator接口）
+    let obj = {username: 'wy', age: 18};
+    // for(let i of obj) {
+    //   console.log(i); // Uncaught TypeError:obj is not iterable
+    // }
+
+
+    // 等同于在指定的数据结构上部署了iterator接口
+    // 当时有 for of去遍历某一个数据解构的时候,首先去找Symbol.iterator,
+    // 找到了就去遍历,没有找到的话不能遍历 xxx is not iterable
+
+    // 这个原本的视频讲解的代码有问题
+    // 下面的代码是看别人写的
+    console.log('==============');
+    let targetData = {
+      name: 'test',
+      age: 12,
+      gender: 'male',
+      [Symbol.iterator]: function () {
+        let i = 0;  // 记录指针的位置
+        return {  // 遍历器对象
+          next: () => {
+            const arr = Object.values(this);
+            // const arr = Object.keys(this);
+            // 这边使用 keys, values 都可以
+            // 不过对应下面的去值的时候要注意
+            // console.log(arr);
+            return {
+              value: arr[i++],
+              // value: this[arr[i++]],
+              done: i > arr.length,
+            }
+          }
+        }
+      }
+    }
+
+    // 视频讲解的这个给对象添加遍历器有问题,然后看了别人的手写的给对象添加iterator接口
+    for(let i of targetData) {
+      console.log(i);
+    }
+
+    // 使用三点运算符、解构赋值时，也默认会调用iterator接口
+    let arr2 = [1, 6];
+    let arr3 = [2, 3, 4, 5];
+    arr2 = [1, ...arr3, 6];
+    console.log(arr2);
+    let [a, b] = arr2;
+    console.log(a, b);
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_数据类型</title>
+</head>
+<body>
+<!--    
+    1. 分类
+        基本(值)类型:   5种
+
+            string:     任意字符串
+            number:     任意的数字
+            boolean:    true/false
+            undefined:  undefined
+            null:       null
+
+        对象(引用)类型
+            Object:     任意对象
+            Function:   一种特别的对象(特别之处：可以执行)
+            Array:      一种特别的对象(数值下标，内部数据是有序的)
+
+
+    2.  判断
+        typeof:
+            可以判断: undefined / 数值 / 字符串 / 布尔值 / function
+            不能判断: null 与 object,  object 与 array
+
+        instanceof
+            判断对象的具体类型
+
+        ===    (其实还有 == , === / ==    === 不会做数据转换，尽量使用 ===)
+            可以判断: undefined / null (因为这两个只有一种值)
+-->
+
+<script>
+    // 1. 基本
+    // typeof返回数据类型的字符串表达式：（意思就是返回字符串形式的 类型）
+
+    var a;
+    console.log(a, typeof a, typeof a === 'undefined', a === undefined);    // undefined, 'undefined', true, true
+    console.log(undefined === 'undefined');
+    a = 3;
+    console.log(typeof a === 'string');
+    a = true;
+    console.log(typeof a === 'boolean');
+    a = null;   // 这个 null 竟然是object （查资料说，这是历史遗留错误）
+    console.log(typeof a, a === null); // 'object'
+
+
+
+    // 2. 对象
+
+    var b1 = {
+        b2: [1, 'abc', console.log],
+        b3: function () {
+            console.log('b3');
+            return function () {
+                return 'xfzhang';
+            }
+        }
+    }
+
+    // 这里 b1 是个对象， b2 是个数组， b3 是个函数（举个全部都有的例子用来讲解）
+    console.log(b1 instanceof Object, b1 instanceof Array); // true  false
+    // instanceof 是实例的意思， a 是不是 b 的实例, b 是构造函数(因为js里面用构造函数来表达类的概念)
+
+    console.log(b1.b2 instanceof Array, b1.b2 instanceof Object);   // true true
+    console.log(b1.b3 instanceof Function, b1.b3 instanceof Object);   // true true
+
+    console.log(typeof b1.b2, '------'); // objcet typeof无法判断数组类型
+
+    console.log(typeof b1.b3 === 'function'); // true
+
+    console.log(typeof b1.b2[2] === 'function'); // true
+    b1.b2[2](4);
+    console.log(b1.b3()());
+
+</script>
+</body>
+</html>

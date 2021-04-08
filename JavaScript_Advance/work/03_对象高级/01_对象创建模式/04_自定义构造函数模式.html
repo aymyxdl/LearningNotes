@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_自定义构造函数模式</title>
+</head>
+<body>
+    
+    方式四：自定义构造函数模式
+        套路：自定义构造函数，通过new创建对象
+        适用场景：需要创建多个类型确定的对象
+        问题：每个对象都有相同的数据，浪费内存
+
+
+<script>
+    // 定义类型
+    function Person(name, age) {
+        this.name = name;
+        this.age = age;
+        this.setName = function(name) {
+            this.name = name;
+        }
+    }
+
+    var p1 = new Person('Tom', 12);
+    p1.setName('Jack');
+    console.log(p1.name, p1.age);
+    console.log(p1 instanceof Person);
+
+    function Student (name, price) {
+        this.name = name;
+        this.price = price;
+    }
+    var s = new Student('Bob', 13000);
+    console.log(s instanceof Student);
+
+    // 缺点：什么叫做相同的数据？
+    var p2 = new Person('Jack', 23);
+
+    // 他们都有setName 这个方法
+    console.log(p1.setName === p2.setName, '=====');
+    // 他们虽然功能一样，但其实是两个对象
+    // 两个代码完全一样的对象(地址不同),占用内存空间，浪费
+    // 而p1 和 p2 有没有完全一样的东西？
+    // 有， __proto__ ，所以想办法把完全一样的东西，放到这里面来
+    // 因此，就引出了 构造函数+原型的组合模式
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_1_Object扩展</title>
+</head>
+<body>
+
+    ES5 给 Object 扩展了一些静态方法，常用的2个：
+    
+    1. Object.create(prototype, [descriptors])
+        作用：以指定对象为原型创建新的对象
+        为新的对象指定新的属性，并对实行进行描述
+            value：指定值
+            writable：标识当前属性值是否可修改，默认为false
+            configurable：标识当前属性是否可以被删除，默认为false
+            enumerable：标识当前属性是否能用for in 枚举，默认为false
+
+    2. Object.defineProperties(object, descriptors)
+        作用：为指定对象定义扩展多个属性
+            get：用来获取当前属性值的回调函数
+            set：监听当前属性值的回调函数(属性值发生变化会自动调用)，调用后会将修改后的值作为实参注入到 set 函数
+    
+            存取器属性：setter，getter 一个用来存值，一个用来取值
+            (说是叫getter,setter,其实就是get方法, set方法)
+
+    <script>
+        var obj = {username: 'damu', age: 30};
+        var obj1 = {};
+        obj1 = Object.create(obj);  // 上面这个 {} 变成了垃圾对象
+
+        // 相当于创建了个新的空对象，重新给obj1赋值，原来的地址指针变了
+        // var obj1 = {gender: 1};
+        // obj1 = Object.create(obj); // 会发现obj1里面没有了gender属性
+
+        console.log(obj1); // obj1.__proto__ 指向了 obj 
+        // obj 作为了 obj1的原型，也就意味着obj的属性和方法被 obj1继承了
+
+        // =====
+
+        // 当然，create的时候还可以传入配置参数
+        var obj2 = Object.create(obj, {
+            sex: {              // sex 是个对象，是配置对象，而不是sex的值
+                value: 'male'
+            }
+        })
+        console.log(obj2.sex);
+        obj2.sex = 'female';
+        console.log(obj2.sex);  // 会发现，没有修改成功，这个因为配置对象中默认为不可修改
+        delete obj2.sex;
+        console.log(obj2);
+        for(let i in obj2) {
+            console.log(i);
+        }
+
+        // =====
+
+        var obj3 = Object.create(obj, {
+            sex: {              
+                value: 'male',
+                writable: true,
+                enumerable: true,
+                configurable: true,
+            }
+        });
+
+        
+        console.log(obj3.sex, '---------');
+        obj3.sex = 'female';
+        console.log(obj3.sex);  // 会发现，没有修改成功，这个因为配置对象中默认为不可修改
+        
+        for(let i in obj3) {
+            console.log(i);
+        }
+
+        delete obj3.sex;
+        console.log(obj3);
+
+
+        // Object.defineProperties(object, descriptors)
+
+        var obj4 = {firstName: 'kobe', lastName: 'bryant'};
+        Object.defineProperties(obj4, {
+            // 一般的属性都是 fullName: 'xxx' 这样的
+            // 这里的属性是一个对象，但是不代表 fullName的值就是这个对象
+            // 这个对象是一个配置项，获取fullName的值通过get来设置的
+            fullName: {
+                get: function () { // 获取扩展属性的值
+                    // 说白了，这个get方法最终是谁来调用呢？你指定的这个对象(obj4)，所以这里用this
+                    return this.firstName + ' ' + this.lastName;
+                }
+            }
+        })
+
+
+        console.log(obj4.fullName);
+        obj4.fullName = 'tim duncan';
+        console.log(obj4.fullName);     // 会发现根本没有改变
+
+        // 因为通过 Object.defineProperties 设置的扩展属性，不能通过一般的方式进行赋值
+
+        var obj5 = {firstName: 'kobe', lastName: 'bryant'};
+        Object.defineProperties(obj5, {
+            fullName: {
+                get: function () { // 获取扩展属性的值
+                    // 获取扩展属性的值的时候,get方法自动调用
+                    console.log('get()');
+                    return this.firstName + ' ' + this.lastName;
+                },
+                set: function (data) {  // 监听扩展属性，当扩展属性发送变化的时候会自动调用
+                    // 自动调用后,会将变化的值作为实参注入到set函数
+                    console.log('set()', data);
+                    var names = data.split(' ');
+                    this.firstName = names[0];
+                    this.lastName = names[1];
+                }
+            }
+        })
+
+        
+        console.log(obj5.fullName, '======');
+        obj5.fullName = 'tim duncan';
+        console.log(obj5.fullName);
+        console.log(obj5);
+
+
+        
+        // 另外,chrome调试的时候,这个fullName是惰性求值
+
+
+
+        
+    </script>
+</body>
+</html>;

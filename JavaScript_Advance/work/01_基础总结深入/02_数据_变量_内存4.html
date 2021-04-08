@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_关于数据传递问题</title>
+</head>
+<body>
+    问题：在js调用函数时传递变量参数时，是值传递还是引用传递？（值传递）
+        理解1：都是值(基本/地址值)传递
+        理解2：可能是值传递，也可能是引用传递(地址值)
+
+<script>
+    var a = 3;
+    function fn (a) {
+        a = a + 1;
+    }
+    fn(a);
+    console.log(a);     // 3
+
+    // 调用函数 fn(a) 时，将实参的值 赋值给 新参
+    // 也就是进行了一步操作  a = a;
+    // (局部变量: 形参) a = a (全局变量：实参) ，这两个a并不一样
+
+    function fn2 (obj) {
+        console.log(obj.name);
+    }
+    var obj = {name: 'Tom'};
+    fn2(obj);
+</script>
+</body>
+</html>

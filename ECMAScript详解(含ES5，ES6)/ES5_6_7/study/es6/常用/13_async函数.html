@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+  <title>13_async函数</title>
+</head>
+<body>
+  
+  async函数(ES2017： ES8)
+  概念：真正意义上去解决异步回调的问题，同步流程表达异步操作
+  本质：Generator的语法糖(我一开始以为是promise的语法糖)
+  语法：
+      async function foo() {
+        await 异步操作;
+        await 异步操作;
+      }
+
+  特点：
+      1. 不需要像 Generator 去调用 next 方法，遇到 await 等待，当前的异步操作完成就往下执行
+      2. 返回的总是 Promise 对象，可以用 then 方法进行下一步操作
+      3. async 取代 Generator 函数的星号，await 取代 Generator 的 yield
+      4. 语意上更为明确，使用简单
+  <script>
+
+    // async基本使用
+    async function foo() {
+      return new Promise(resolve => {
+        setTimeout(resolve, 2000);
+      })
+    }
+
+    async function test() {
+      console.log('开始执行', new Date().toTimeString());
+      const result = await foo();
+      console.log(result, '-----'); // 不是说async返回的是 promise类型吗？
+      //  async返回的确实是 promise对象(不管你是否自己返回promise对象，它都会给你封装)
+      //  然后await 又会帮你转换，把这个promise拆解掉，把里面你需要的内容返回给你，无需你关心如果处理promise对象
+
+      console.log('执行完毕....', new Date().toTimeString());
+    }
+
+    test();
+
+
+    // 知识点2：
+
+    // async 里 await返回值
+    // 也就是上面我说的 await帮你拆解了promise对象
+
+    function test2() {
+      return 'xxx';
+    }
+    async function asyncPrint() {
+      let result = await test2();
+      // 如果是普通函数返回的就是 普通的返回值
+      console.log(result);
+
+      // promise返回的也是 没有封装的对象
+      result = await Promise.resolve({a: 123});
+      console.log(result);
+
+      // 因为promise状态为reject，所以报错了
+      // result = await Promise.reject('error done');
+      // console.log(result);
+    }
+
+    asyncPrint();
+
+    // 知识点3：
+
+    // 获取新闻内容
+    // 最终解决方案：使用async和awai解决异步问题
+    // 我上一节虽然也写了async 代码
+    // 但是很多冗余，之前学习的知识点都忘了
+    function getNews(url) {
+      return new Promise((resolve, reject) => {
+        axios.get(url)
+          .then(res => {
+            resolve(res);
+          })
+      })
+    }
+
+    async function sendXml () {
+      let result = await getNews('http://localhost:3000/posts/1');
+      console.log(result);
+      let result2 = await getNews('http://localhost:3000/comments?postId=' + result.data.postId);
+      console.log(result2);
+    }
+
+    sendXml();
+
+
+  </script>
+</body>
+</html>

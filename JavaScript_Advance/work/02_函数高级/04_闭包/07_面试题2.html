@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_面试题2</title>
+</head>
+<body>
+    
+
+<script>
+    function fun(n, o) {
+        console.log(o);
+        return {
+            fun: function(m) {
+                return fun(m, n);
+            }
+        };
+    }
+
+    var a = fun(0); a.fun(1); a.fun(2); a.fun(3);
+    var b = fun(0).fun(1).fun(2).fun(3);
+    var c = fun(0).fun(1); c.fun(2); c.fun(3);
+
+
+
+    // var a = fun(0)
+    // 我一开始以为这里没有产生闭包
+    // 我是认为内部函数当作对象的 fun 属性存在，这样不算做嵌套函数，不会产生闭包
+    // 但是我的理解错了：不管是直接函数，还是对象的属性
+    // 只要有嵌套函数，就会产生闭包
+
+
+    // undefined 0 1 2
+
+    // undefined 0 1 1
+</script>
+</body>
+</html>

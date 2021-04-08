@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_点点点运算符</title>
+</head>
+
+    就是扩展运算符(这个老师讲课的时候挺早的，估计他也只是没搞清真正的名字，直接叫点点点)
+    是我错了， 三点运算符可以有多个用途，可以作为扩展运算符，也可以作为 其它运算符操作(好像是叫 剩余运算符？)
+    扩展运算符只是它的一个功能
+
+    1. rest(可变)参数
+        用来取代 arguments，但比 arguments 灵活，只能是最后部分形参参数
+
+    2. 扩展运算符
+
+<body>
+    
+
+    <script>
+        function foo(a, b) {
+            console.log(arguments);
+            // arguments.callee()
+            // callee 就是指向函数本身，有时候递归就用callee
+            // 相当于 Funciton.prototype.constructor 属性？
+
+            // arguments 是个伪数组，因为没有其它数组的方法，只有length
+            // 会报错，因为arguments不是数组
+            // arguments.forEach(item => {
+            //     console.log(item);
+            // })
+        }
+
+        foo(3, 25);
+
+        // function foo1(...value) {
+        function foo1(a, b, ...value) {
+            console.log(arguments);
+            console.log(value);
+            value.forEach((item, index) => {
+                console.log(index, item);
+            });
+
+            // 三点运算符的另一个用法：替换arguments
+            // 并且这时候value是真正的数组，可以使用原生数组的方法
+
+            // 另外在参数位置还可以自动判断搜集起来的变量个数，不过只能放在最后面
+        }
+        foo1(3, 5, 6, 'asa', {});
+
+        // 2. 作为 扩展运算符 使用
+
+        let arr = [1, 6];
+        let arr1 = [2, 3, 4, 5];
+        arr = [1, ...arr1, 6];
+        console.log(arr);
+        console.log(...arr);
+
+    </script>
+</body>
+
+</html>

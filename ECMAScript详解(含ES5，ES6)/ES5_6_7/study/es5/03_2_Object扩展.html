@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_2_Object扩展</title>
+</head>
+<body>
+
+    对象本身的两个方法
+        get propertyName() {}：用来得到当前属性值的回调函数
+        set propertyName() {} ：用来监听当前属性值变化的回调函数
+
+    
+    这两种写法不同但是结果是完全相同的。
+    (就是Object.defineProperties 设置属性的时候,用的就是这两个方法)
+
+    <script>
+
+        var obj = {
+            firstName: 'curry',
+            lastName: 'stephen',
+            get fullName () {
+                return this.firstName + this.lastName;
+            }
+        }
+
+        console.log(obj.fullName);
+        obj.fullName = 'kobe bryant';
+        console.log(obj.fullName);
+
+
+        var obj2 = {
+            firstName: 'curry',
+            lastName: 'stephen',
+            get fullName () {
+                return this.firstName + this.lastName;
+            },
+            set fullName (data) {
+                var names = data.split(' ');
+                this.firstName = names[0];
+                this.lastName = names[1];
+            }
+        }
+
+        
+        console.log(obj2.fullName);
+        obj2.fullName = 'kobe bryant';
+        console.log(obj2.fullName);
+
+
+
+
+
+        // 疑问: get 的方式只能用来返回拼接的属性吗?
+        // 如果指向返回正常的字符串该怎么办?
+        var obj3 = {
+            firstName: 'curry',
+            lastName: 'stephen',
+            get fullName () {
+                // 这样不用变量存的话,设置的时候会报错
+                return this._fullName;
+                // return this.this._fullName
+            },
+            set fullName (data) {
+                // 这样直接设置会报错
+                // this.fullName = data;
+                this._fullName = data;
+            }
+        }
+
+        console.log(obj3.fullName);
+        obj3.fullName = '重新设置';
+        console.log(obj3.fullName);
+    </script>
+</body>
+</html>;

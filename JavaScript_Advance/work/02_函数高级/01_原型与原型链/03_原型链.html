@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_原型链</title>
+</head>
+<body>
+    
+    1. 原型链（图解）
+        访问一个对象的属性时，
+            现在自身属性中查找，找到返回
+            如果没有，再沿着__proto__这条链向上查找，找到返回
+            如果最终没找到，返回undefined
+
+        别名：隐式原型链
+        作用：查找对象的属性（方法）
+
+    2.  构造函数/原型/实例对象的关系（图解）
+        构造函数/原型/实例对象的关系2（图解2）
+
+<script>
+    console.log(Object);
+    console.log(Object.prototype);
+    console.log(Object.prototype.__proto__);
+    function Fn() {
+        this.test1 = function () {
+            console.log('test()1');
+        }
+    };
+    console.log(Fn.prototype);
+    Fn.prototype.test2 = function () {
+        console.log('test2()');
+    };
+
+    var fn = new Fn();
+
+    fn.test1();
+    fn.test2();
+    console.log(fn.toString());
+    console.log(fn.test3);
+    // fn.test3();
+
+
+    // 2. 构造函数/原型/实例对象的关系2（图解2）
+    function Foo() {};
+    Foo.prototype;                          // Foo 通过 prototype属性，找到 Foo的原型对象(prototype对象), 这个prototype对象 是一个 空的 Object的实例对象
+    Foo.prototype.constructor === Foo;      // 原型对象上的 constructor 指向 函数本身
+
+    Foo.__proto__ === Function.prototype;   // 函数为什么会有隐式原型属性(__proto__)呢？
+                                            // 我们说：所有的实例对象都有 隐式原型属性
+                                            // 函数其实也是一个实例对象，是谁的实例？（是 Function 的实例： function Function() {}）
+                                            // function Foo() {} 也等于 var Foo = new Function()
+                                            // 所以一个函数对象，是 大写Function 的实例
+                                            // 所以：所有函数都有两个属性： 显示原型属性（prototype） 和 隐式原型属性（__proto__）
+
+
+    Function.prototype;                     // function Function() 通过 prototype属性，找到 Function的原型对象(prototype对象)
+    Function.prototype.constructor === Function;
+                                            // Function的显示原型对象 prototype属性的 constructor 指向 Function 本身
+
+                                            // 关键的来了
+
+    Function.__proto__ === Function.prototype;
+                                            // __proto__ 是一个隐式原型属性，什么东西才有隐式原型属性？ 实例对象才有隐式原型属性
+                                            // 那实例对象的 隐式原型属性 等于什么？ 等于 它的构造函数的 显式原型属性
+                                            // 那说明什么？说明 大写Function 的 __proto__ 和 prototype 是相等的
+                                            // 只有 大写Function 是特殊的： 它自身的隐式原型等于它自身的隐式原型 
+                                            // 这再一步说明：Function 是 new自己创建的
+                                            // var Function = new Function()
+                                            // 只有这样才能保证 我自身的显示原型 和 隐式原型 是相等的
+
+                                            // 所有函数的隐式原型(__proto__)，都应该相等：因为他们都是 new Function()产生的
+                                            // 所以所有的函数的 __proto__ 都指向 Function.prototype
+
+
+
+                                            // 还有一个
+    Object.__proto__ === Function.prototype
+                                            // function Object(), 函数 Object的 隐式原型 指向 Function的 显示原型  
+                                            // Object 函数 是 Function的实例
+                                            // 因为任何函数 都是 new 大写Function 产生的
+
+    /*
+        1. 函数的显示原型指向的对象默认是空的Object实例对象（但Object不满足）
+            // 只有 Object 例外
+    */
+
+    console.log(Fn.prototype instanceof object);    // true
+    console.log(Object.prototype instanceof Object); // false
+    console.log(Function.prototype instanceof Object); // true
+    // Function.prototype.__proto__ === Object.prototype;
+
+    /*
+        2. 所有函数都是Function的实例(没有例外，包括Function它本身)
+    */
+    console.log(Function.prototype === Function.__proto__);
+
+    /*
+        3. Object的原型对象是原型链的尽头
+    */
+
+    console.log(Object.prototype.__proto__); // null
+</script>
+</body>
+</html>

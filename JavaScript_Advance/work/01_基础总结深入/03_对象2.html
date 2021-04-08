@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_相关问题</title>
+</head>
+<body>
+    问题：什么时候必须使用 ['属性名'] 的方式？
+        1. 属性名包含特殊字符： - 空格
+        2. 变量名不确定(属性名不确定，也就是key不确定)
+
+<script>
+    var p = {};
+    // 1. 给p对象添加一个属性： content-type: text/json
+    // p.content-type = 'text/json'; // 不能用
+    p['content-type'] = 'text/json';
+    p['content type'] = 'text/json';
+    console.log(p);
+
+    // 2. 变量名不确定
+    var propName = 'myAge';
+    var value = 18;
+    // p.propName = value; // 不能用
+    p[propName] = value;
+
+
+    // 问题，如果使用ts中的类型
+    // let aaa: number = 18
+    // p[aaa] = 11;
+    // 这个会不会有问题？最终这个key是字符串还是number类型
+
+    // const text: any = reactive({});
+    // // const p: string = '18';
+    // const p: number = 18;
+    // text[p] = 12;
+    // text.aaa = '12';
+    // // text.aa = 12;
+    // console.log(text);
+
+    // 上面的vue3 的 ts代码，最终控制台输出，会发现 p.18 自动转换成了字符串
+
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>08_形参默认值</title>
+</head>
+
+<body>
+
+
+  形参默认值 ---- 当不传入参数的时候默认使用形参里的默认值
+
+  function Point(x = 1, y = 2) {
+    this.x = x;
+    this.y = y;
+  }
+
+  <script>
+    // 定义一个点的坐标的构造函数
+
+    function Point(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+    let p = new Point(12, 34);
+    console.log(p);
+    // 有时候忘了写参数
+
+    let p2 = new Point();
+    console.log(p2);
+    // 虽然不会报错，但是也不符合要求
+
+    // 这个时候，就用形参默认值
+    function Point1(x = 1, y = 2) {
+      this.x = x;
+      this.y = y;
+    }
+
+    let p3 = new Point1();
+    console.log(p3);
+  </script>
+</body>
+
+</html>

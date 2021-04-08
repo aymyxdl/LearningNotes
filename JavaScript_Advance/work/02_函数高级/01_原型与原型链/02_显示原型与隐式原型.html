@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_显示原型与隐式原型</title>
+</head>
+<body>
+
+    1. 每个函数function都有一个prototype，即显示原型（显示原型属性）
+    2. 每个实例对象都有一个__proto__，可称为隐式原型（隐式原型属性）
+    3. 对象的隐式原型的值 为其对应 构造函数 的显示原型的值
+    4. 内存结构（图）
+    5. 总结：
+            函数的prototype属性：在定义函数时自动添加的，默认值是一个空Object对象
+            对象的__proto__属性：创建对象时自动添加的，默认值为构造函数的prototype属性值
+            程序员能直接操作显示原型，但不能直接操作隐式原型（ES6之前）
+
+    
+<script>
+    function Fn() {};
+
+    //  1. 每个函数function都有一个prototype，即显示原型属性，默认指向一个空的Object对象(或者说Object的实例对象)
+    console.log(Fn.prototype);
+
+    //  2. 每个实例对象都有一个__proto__，可称为隐式原型属性
+    var fn = new Fn();
+    console.log(fn.__proto__);
+    // console.log(fn.__proto__.__proto__.__proto__, '======');
+
+    //  3. 对象的隐式原型的值 为其对应 构造函数的显示原型的值
+    console.log(Fn.prototype === fn.__proto__);
+
+    //  深入详解：
+    //  这里需要注意，我们并没有给fn设置 __proto__，那么它是怎么来的呢?
+    //  是在 new 的时候，浏览器自动赋值的
+    //  var fn = new Fn() 时候的内部语句 fn.__proto__ = Fn.prototype 或者写成 this.__proto__ = Fn.prototype
+
+    // 那么同样的，Fn的prototype 属性又是如何来的呢？
+    // 同理：在声明函数的时候，浏览器自动添加的
+    // function Fn() {} 时候的内部语句  Fn.prototype = {} 或者写成 this.prototype = {}  
+
+
+    // 所以，我很多时候对this都很难搞懂，本来概念清晰了， this.prototype = {} ，这里的 this又是指向谁呢？
+    // 按照理解来说，this是谁调用就是谁，如果 调用 Fn()，那么this应该就是window
+    // 不过函数声明 function Fn() {} 时候，内部执行的语句，这个时候，并没有谁调用Fn，而是Fn本身调用自己，完成内部操作吗？
+    // 只有这样解释，我才能自圆其说 this 指向 Fn
+
+
+    // 给原型添加方法
+    Fn.prototype.test = function () {
+        console.log('test()');
+    }
+    fn.test();
+
+    // 1. 定义构造函数
+    // 2. 创建实例对象
+    // 3. 给原型添加方法
+    // 4. 通过实例调用原型方法
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>00_引入</title>
+</head>
+<body>
+    <button>测试1</button>
+    <button>测试1</button>
+    <button>测试1</button>
+    
+    <!-- 需求：点击某个按钮，提示"点击的是第n个按钮" -->
+
+<script>
+    
+    // JS中号称两大神兽：原型和闭包
+
+    var btns = document.getElementsByTagName('button');
+
+    // 遍历加监听
+    // 这里btns 不是数据，是类数组，是个 HTMLCollection
+    // 所以如果用它来实现for循环，每次循环都要计算一次 btns的长度，效率很低
+
+    // 遍历加监听
+    // for (var i = 0, length = btns.length; i < length; i += 1) {
+    //     var btn = btns[i];
+    //     btn.onclick = function () {
+    //         alert('这是第' + (i + 1) + '个');
+    //     };
+    // };
+
+    // 这里会出现问题：所有的i 都是 4
+    // 这是因为，这个点击事件是在以后的某个时刻执行
+    // 而这个时候，循环已经执行完了，而i 已经等于4了
+
+    // for (var i = 0, length = btns.length; i < length; i += 1) {
+    //     var btn = btns[i];
+    //     btn.index = i;
+    //     btn.onclick = function () {
+    //         alert('这是第' + (this.index + 1) + '个');
+    //     };
+    // };
+
+
+    // 或者：
+
+    // 利用了闭包
+    for (var i = 0, length = btns.length; i < length; i += 1) {
+        (function (i) {var btn = btns[i];
+            btn.onclick = function () {
+                alert('这是第' + (i + 1) + '个');
+            };
+        })(i);
+    };
+
+    
+</script>
+</body>
+</html>

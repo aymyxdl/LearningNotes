@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_IIFE</title>
+</head>
+<body>
+    1. 理解
+        全称： Immediately-Invoked Function Expression
+        立即执行(调用)函数表达式
+
+    2. 作用
+        隐藏实现
+        不会污染外部(全局)命名空间
+        用它来编写JS模块(后面讲)
+
+<script>
+    // 匿名函数自调用(实际就是 IIFE，是同一个概念)
+    (function () {
+        console.log('....');
+    })();
+    // IIFE(也不一定是IIFE)前面必须加 分号，不然后面的会报错
+    // 不然会把下一行 立即函数最外面的 () 当成上一行结尾在一起
+    // 因此会看成一个函数来调用
+    // 如果这里是 var a = 'test'
+    // 没加分号 会看成 var a = 'test'(function () ...)  看成了一个函数
+
+    // 或者在IIFE前面加 ;(function () { ... })()
+    // 按理来说，为什么不放到外面执行？而要多此一举放到 IIFE 里面呢？
+    (function () {
+        var a = 3;
+        console.log(a + 3);
+    })();
+    var a = 4;
+    console.log(4); // 这两个a 互不影响
+
+
+    (function () {
+        var a = 1;
+        function test () {
+            console.log(++a);
+        };
+        window.$ = function () {    // 向外暴露一个函数
+            return {
+                test: test
+            }
+        }
+    })()
+
+    console.log($().test());    // 2
+    console.log($().test());    // 3
+    console.log($().test());    // 4
+    console.log(window.a);      // 4
+    // 问题：
+    // 说实话，有点不理解， a 怎么就成了全局变量了
+</script>
+</body>
+</html>

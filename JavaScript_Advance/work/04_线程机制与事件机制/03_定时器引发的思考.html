@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_定时器引发的思考</title>
+</head>
+<body>
+    
+<!-- 
+    1. 定时器真实定时执行的吗？
+        定时器并不能保证真正定时执行
+        一般会延迟一丁点(可以接受)，也有可能延迟很长事件(不能接受)
+
+    2. 定时器回调函数是在分线程执行的吗？
+        在主线程执行的，js是单线程的
+
+    3. 定时器是如何实现的？
+        事件循环模型(后面讲)
+-->
+    
+<button id="btn">启动定时器</button>
+
+<script>
+    document.getElementById('btn').onclick = function () {
+        var start = Date.now(); // 这是H5新增的方法
+        console.log('启动定时器前...');
+        setTimeout(function () {
+            console.log('定时器启动了', Date.now() - start);
+        }, 200);
+        console.log('启动定时器后...');
+
+        // 上面的代码执行看起来事件相差不大
+        // 做一个长时间的工作
+        // 下面这段代码分别注释放开看看效果
+        for (var i = 0; i < 100000000; i += 1) {}
+    }
+
+    // 这时会发现定时器根本不准，相差太大了
+    // 由此，这里引申出了 ==> 事件循环机制
+</script>
+</body>
+</html>

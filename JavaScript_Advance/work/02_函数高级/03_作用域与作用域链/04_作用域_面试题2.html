@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05_作用域_面试题2</title>
+</head>
+<body>
+
+<script>
+    var fn = function () {
+        console.log(fn);
+    };
+    fn();
+
+    var obj = {
+        fn2: function() {
+            console.log(fn2);
+        }
+    };
+
+    obj.fn2()
+
+
+    // 详解：
+    // fn 的作用域是它的内层代码，外层作用域是window
+    // 这个很好理解，因此 fn() 输出的就是 fn这个函数
+
+    // fn2的作用域是它的内层代码，但是fn2的 外层作用域是哪个？
+    // 是window，而不是obj
+    // 因为obj不是函数，它没有产生作用域(或许是对象不会产生函数执行上下文？)
+    // 所以fn2 的外层作用域就是window
+    // 因此 obj.fn2() 会报错： fn2 is not defined
+
+</script>
+</body>
+</html>

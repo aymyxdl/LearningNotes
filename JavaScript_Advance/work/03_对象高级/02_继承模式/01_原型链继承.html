@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_原型链继承</title>
+</head>
+<body>
+    
+    方式1：原型链继承
+    1. 套路：
+        1. 定义父类型构造函数
+        2. 给父类型的原型添加方法
+        3. 定义子类型构造函数
+        4. 创建父类型的对象赋值给子类型的原型
+        5. 将子类型原型的构造属性设置为子类型
+        6. 给子类型原型添加方法
+        7. 创建子类型的对象：可以调用父类型的方法
+
+    2. 关键：
+        1. 子类型的原型为父类型的一个实例对象
+
+<script>
+    // 父类型
+    function Super() {
+        this.superProp = 'Super property';
+    }
+    Super.prototype.showSuperProp = function () {
+        console.log(this.superProp);;
+    }
+
+    // 子类型
+    function Sub() {
+        this.subProp = 'Sub property';
+    }
+
+    // 子类型的原型为弗雷西的一个实例对象（不过这样的方法，必须写在所有prototype操作的最前面，不然会丢失）
+    Sub.prototype = new Super();
+
+    // 这里还需要多做一步，不然constructor会出问题
+    // 让子类型的原型的constructor指向子类型(这里是加了一个原本没有的 constructor 属性)
+    Sub.prototype.constructor = Sub;
+
+    Sub.prototype.showSubProp = function () {
+        console.log(this.subProp);;
+    }
+
+    // 这样随便写在哪里，但是作用域链多了一层(super)，这是我自己发散思维想到的，不知道有什么缺点
+    // Sub.prototype.__proto__ = new Super();
+
+    var sub = new Sub();
+    sub.showSubProp();
+    sub.showSuperProp();
+
+    console.log(sub.constructor);   // 按理来说需要Sub,但是却是super
+    console.log(sub);
+    console.log(sub.__proto__.__proto__ === Super.prototype);
+
+</script>
+</body>
+</html>

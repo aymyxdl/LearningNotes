@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_模板字符串</title>
+</head>
+<body>
+    
+    1. 模板字符串(模板字变量)：简化字符串的拼接
+        必须用``包含（反引号）
+        变化的部分使用 ${xxx} 定义
+
+    <script>
+        let obj = {username: 'kobe', age: 39};
+        let str = 'My name is ' + obj.username + '，我的年龄是：' + obj.age + '.'
+        // 使用模板字符串
+        str = `My name is ${obj.username} ...${obj.age}.`;
+        console.log(str);
+    </script>
+</body>
+</html>

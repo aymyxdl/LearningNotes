@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_严格模式</title>
+</head>
+<body>
+
+    1. 理解：
+        除了正常运行模式(混杂模式)，ES5添加了第二种运行模式: '严格模式' (strict mode)。
+        顾名思义，这种模式使得Javascript在更严格的语法条件下运行。
+
+    2. 目的/作用
+        消除 JS 语法的一些不合理、不严谨之处，减少一些怪异行为
+        消除代码运行的一些不安全之处，为代码的安全运行保驾护航
+        为未来新版本的js做好铺垫
+        
+    3. 使用：
+        在全局或函数的第一条语句定义为：'use strict'
+        如果浏览器不支持，只解析为一条简单的语句，没有任何副作用
+
+    4. 语法和行为改变
+        必须用var声明变量
+        禁止自定义的函数中的this指向window
+        创建eval作用域
+        对象不能有重名的属性
+
+    <script>
+        'use strict';
+        // 1.必须用var声明变量
+        // username = 'kobe';
+        var username = 'kobe';
+        console.log(username);
+
+
+        // 2.禁止自定义的函数中的this指向window
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        // 创建构造函数的本意是 new 实例
+        // 但是调用的时候忘记了new
+        // 而是通过自调用的方式
+        // Person('kobe', 28);
+
+        // 本质的原因是自调用的时候this指向了window
+        // 想要不报错， 
+        new Person('kobe', 28);
+        // 因为new的时候，this指向了实例对象
+
+
+        // 3. 创建eval作用域
+        var str = 'NBA';
+        // 如果不适用严格模式，eval没有自己的作用域，相当于在全局模式下写
+        // 可能会有安全隐患，因为eval里面的字符串很有可能是通过发请求
+        // 从服务器返回的，如果要攻击你的网站，完全可以拦截你发的请求，替换成他准备的字符串
+        // 这个字符串很有可能是要运行的代码
+        eval('var str = "CBA"; alert(str)');
+        alert(str)
+
+        // 因此如果用了严格模式，eval有自己的作用域，字符串中写的变量不会污染全局的变量
+        // 如果没使用严格模式，cba 会 覆盖了 nba
+        // 严格模式创建了eval作用域
+
+
+        // 4.对象不能有重名的属性
+        var obj = {
+            username: 'kobe',
+            username: '12'
+        }
+
+        // en.... 说实话，这个开没开严格模式好像没区别？都没有报错
+        console.log(obj);
+    </script>
+</body>
+</html>

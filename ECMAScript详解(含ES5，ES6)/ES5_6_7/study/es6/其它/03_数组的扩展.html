@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>03_数组的扩展</title>
+</head>
+
+<body>
+  <button>测试1</button>
+  <br>
+  <button>测试2</button>
+  <br>
+  <button>测试3</button>
+  <br>
+  <!-- 
+    1. Array.from(v)：将伪数组对象或可遍历对象转换为真数组
+    2. Array.of(v1, v2, v3)：将一系列值转换成数组
+    3. find(function(value, index, arr) {return true})：找出第一个满足条件返回 true 的元素
+    4. findIndex(function(value,index,arr) {return true})：找出第一个满足条件返回 true 的元素下标 -->
+
+  <script>
+    let btns = document.getElementsByTagName('button') // 获取一个伪数组，没有数组的一般方法
+    Array.from(btns).forEach(i => {
+      console.log(i)
+    })
+
+    let arr = Array.of(1, 4, 'abc', true)
+    console.log(arr) // [1, 4, "abc", true]
+
+    let arr2 = [1, 4, 3, 7, 5, 8]
+    let result = arr2.find((item, index) => {
+      return item > 4
+    })
+    console.log(result) // 7
+    let result2 = arr2.findIndex((item, index) => {
+      return item > 4
+    })
+    console.log(result2) // 3
+  </script>
+</body>
+
+</html>

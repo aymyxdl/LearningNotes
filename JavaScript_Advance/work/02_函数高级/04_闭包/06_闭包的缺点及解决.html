@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_闭包的缺点及解决</title>
+</head>
+<body>
+    
+    1. 缺点
+        函数执行完后，函数内的局部变量没有释放，占用内存事件会变长(这一点，既是优点，也是缺点)
+        容易造成内存泄漏(使用完了闭包，内存白白占用着，浪费)
+
+    2. 解决
+        能不用闭包就不用
+        及时释放
+
+<script>
+    function fn1() {
+        var arr = new Array(10000);
+        function fn2() {
+            console.log(arr.length);
+        };
+        return fn2;
+    };
+
+    var f = fn1();
+    f();
+
+    f = null; // 让内部函数成为垃圾对象 --> 回收闭包
+
+    var a1 = new Array(100);
+    var a2 = new Array(100);
+    console.log(a1, a2);
+
+
+    // 补充部分：内存溢出与内存泄漏
+
+</script>
+</body>
+</html>

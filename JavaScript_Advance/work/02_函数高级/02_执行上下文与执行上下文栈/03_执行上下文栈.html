@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_执行上下文栈</title>
+</head>
+<body>
+
+    1. 在全局代码执行前，JS引擎就会创建一个栈来存储管理所有的执行上下文对象
+    2. 在全局执行上下文(window)确定后，将其添加到栈中（压栈）
+    3. 在函数执行上下文创建后，将其添加到栈中（压栈）
+    4. 在当前函数执行完毕后，将栈顶的对象移除（出栈）
+    5. 当所有的代码执行完后，栈中只剩下window
+
+
+<script>
+                                // 1. 进入全局执行上下文
+    var a = 10;
+
+    var bar = function (x) {
+        var b = 5;
+        foo(x + b);             // 3. 进入foo函数执行上下文
+    };
+
+    var foo = function (y) {
+        var c = 5;
+        console.log(a + c + y);
+    };
+
+    bar(10);                    // 2. 进入bar函数执行上下文
+
+    // 栈底永远是window，因为全局执行上下文是第一个执行的
+
+
+    // 详解：
+    // 一开始，我有些疑问：按理来说： var foo 这种方式是变量提升，这个时候foo = undefined
+    // 那么在 foo等于undefined的时候， 在bar中调用 foo，不应该是 undefined()，然后报错吗？
+
+    // 仔细一想，就发现：var bar 这里，仅仅只是赋值，并没有调用函数：请注意，只是赋值，没有调用函数
+    // 因此，不会创建函数执行上下文，也不会进入到函数内部执行代码，调用 foo();
+    // 所以就不会报错
+    // 而真正调用bar函数的地方，是在最下面，而这个时候，foo函数已经完成赋值了
+    // 也就是说，这个时候的foo，由原来的 undefined变成了 functin(){...}
+    // 因此，这个时候，调用，并不会报错
+
+    // 所以，由此也可以推断，如果 bar(10) 调用放在 foo 的赋值之前，就会报错
+
+    // 也就是：
+
+    // var bar = function (x) {
+    //     var b = 5;
+    //     foo(x + b);
+    // };
+
+    // bar(10);         // bar放在这里，就会报错
+
+    // var foo = function (y) {
+    //     var c = 5;
+    //     console.log(a + c + y);
+    // };
+
+
+
+    // 同理，如果换成了函数提升，那么就不会报错：
+
+    // var bar = function (x) {
+    //     var b = 5;
+    //     foo(x + b);
+    // };
+
+    // bar(10);         // bar放在这里，也不会报错，因为foo是函数提升
+
+    // function foo (y) {
+    //     var c = 5;
+    //     console.log(a + c + y);
+    // };
+
+
+</script>
+</body>
+</html>

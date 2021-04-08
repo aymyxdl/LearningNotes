@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_面试题1</title>
+</head>
+<body>
+    
+
+<script>
+    // 代码片段一
+    var name = 'The window';
+    var object = {
+        name: 'My Object',
+        getNameFunc: function() {
+            return function() {
+                return this.name;
+            };
+        }
+    };
+
+    alert(object.getNameFunc()());      // ?
+
+    // 这里 getNameFunc函数很多人以为是oject调用的，所以 object.getNameFunc()() 的调用者也是object
+    // 实际是 getNameFunc() 是 object调用的，但是返回的函数直接执行，这个执行者是 window
+    // 而且这个代码没有闭包，因为内部函数没有引用外部函数的变量
+
+    // 代码片段二
+
+    var name2 = "The Window";
+    var object2 = {
+        name2: 'My Object',
+        getNameFunc: function() {
+            var that = this;
+            return function() {
+                return that.name2;
+            };
+        }
+    }
+
+    alert(object2.getNameFunc()());
+
+    // 这个代码产生了闭包
+    // object2.getNameFunc() 调用的时候，就产生了闭包
+    // 这个时候内部函数的 that 引用的是 外部函数(getNameFunc)中的变量
+
+
+    // 我自己改进的
+    var obj3 = {name2: 'i am obj3'};
+    alert(object2.getNameFunc.call(obj3)());
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_Array扩展</title>
+</head>
+<body>
+    1. Array.prototype.indexOf(value)：得到值在数组中的第一个下标
+    2. Array.prototype.lastIndexOf(value)：得到值在数组中的最后一个下标
+    3. Array.prototype.forEach(function(item, index) {})：遍历数组
+    4. Array.prototype.map(function(item, index) {})：遍历数组返回一个新的数组，返回加工之后的值
+    5. Array.prototype.filter(function(item, index) {})：遍历过滤出一个新的子数组，返回条件为true的值
+
+    <script>
+        // 上面的这些方法都是给 Array 实例用的
+        // 因为放在了Array的显示原型上
+
+        /* 
+            需求：
+            1. 输出第一个6的下标
+            2. 输出最后一个6的下标
+            3. 输出所有元素的值和下标
+            4. 根据arr产生一个新数组，要求每个元素都比原来大10
+            5. 根据arr产生一个新数组，返回的每个元素要大于4
+        */
+        var arr = [5,7,6,4,5,1,6,2,3,8]
+
+        // 1.
+        console.log(arr.indexOf(6));
+
+        // 2.
+        console.log(arr.lastIndexOf(6));
+
+        // 3.
+        arr.forEach(function (item, index) {
+            console.log(index, item);
+        });
+
+        // 4.
+        var arr1 = arr.map(function (item) {
+            return {
+                number: item +10
+            };
+        });
+
+        // 5.
+        var arr2 = arr.filter(function (item) {
+            return item > 3;
+        });
+        console.log(arr2);
+
+        
+
+
+
+        // forEach map filter 是ES5的
+        // find是 ES6的
+    </script>
+</body>
+</html>

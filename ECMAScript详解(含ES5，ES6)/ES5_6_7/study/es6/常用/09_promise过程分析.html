@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>09_promise过程分析</title>
+</head>
+
+<body>
+
+
+  <script>
+    // 下面是一个案例练习
+    // 需求：
+
+    // 发送 ajax 请求获取新闻内容
+    // 新闻内容获取成功后再次发送请求，获取对应的新闻评论内容
+    // 新闻内容获取失败则不需要再次发送请求
+    // 定义获取新闻的功能函数
+
+    function getData(url) {
+      let promise = new Promise((resolve, reject) => {
+        // 状态：初始化
+        // 执行异步任务
+        // 创建 xmlHttp 实例对象
+        let xmlHttp = new XMLHttpRequest();
+        console.log(xmlHttp.readyState);
+        // 绑定监听 readyState
+        xmlHttp.onreadystatechange = function () {
+          if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status === 200) {
+              // 修改状态
+              resolve(xmlHttp.responseText); // 修改promise的状态为成功的状态
+            } else {
+              reject('暂时没有新闻内容')
+            }
+          }
+        }
+
+        //open 设置请求的方式以及url
+        xmlHttp.open('GET', url);
+        // 发送
+        xmlHttp.send();
+      })
+      return promise;
+    }
+
+    getData('http://localhost:3000/news?if=2').then(
+      value => {
+        console.log(value);
+        // 发送请求获取评论内容准备url
+        let commentsUrl = JSON.parse(value).commentsUrl;
+        let url = 'https://localhost:3000' + commentsUrl;
+        // 发送请求
+        return getData(url);
+      },
+      reason => {
+        console.log(reason);
+      }
+    ).then(
+      resopnse => {
+        console.log(response);
+      },
+      reason => {
+        console.log(reason);
+      }
+    )
+  </script>
+</body>
+
+</html>

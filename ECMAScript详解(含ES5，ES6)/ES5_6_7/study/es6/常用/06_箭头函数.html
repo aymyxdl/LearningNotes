@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_箭头函数</title>
+</head>
+
+<body>
+
+    <button id="btn1">btn1</button>
+    <button id="btn2">btn2</button>
+
+    <!-- 
+    作用：定义匿名函数
+    基本语法：
+        没有参数：() => console.log('xxxx')
+        一个参数：i => i+2
+        大于一个参数：(i, j) => i+j
+        函数体不用大括号：默认返回结果
+        函数体如果有多个语句，需要用{}包围，若有需要返回的内容，需要手动返回
+    使用场景：多用于定义回调函数
+
+    箭头函数的特点：
+        1. 简洁
+        2. 箭头函数没有自己 this，箭头函数的 this 不是调用的时候决定的，而是在定义的时候处在的对象就是它的 this
+        3. 扩展理解：箭头函数的 this 看外层的是否有函数
+            如果有，外层函数的 this 就是内部箭头函数的 this(如果外层还是箭头函数，继续向外找)
+            如果没有，则 this 是 window
+-->
+    <script>
+        // 形参的情况
+        // 1.没有形参的时候
+        let fun1 = () => console.log('我是箭头函数')
+        fun1()
+        // 2.只有一个形参的时候，()可以省略
+        let fun2 = a => console.log(a)
+        fun2('aaa')
+        // 3.两个及两个以上形参的时候，()不能省略
+        let fun3 = (x, y) => console.log(x, y)
+        fun3(25, 35)
+
+
+        // 函数体的情况
+        // 1.函数体只有一条语句或表达式的时候，{}可以省略-->会自动返回 语句执行 或者是表达式的结果
+        fun4 = (x, y) => x + y;
+        console.log(fun4(24, 36));
+
+        // 2.函数体不止一条语句或表达式的时候，{}不可以省略
+        let fun5 = (x, y) => {
+            console.log(x, y);
+            return x + y;
+        }
+        console.log(fun5(20, 30));
+
+
+        // =========
+        // 测试箭头函数的this
+        let btn1 = document.getElementById('btn1')
+        let btn2 = document.getElementById('btn2')
+
+        btn1.onclick = function () {
+            console.log(this) // [object HTMLbuttonElement]
+        }
+        btn2.onclick = () => {
+            console.log(this) // [object Window]
+        }
+
+        // let obj = {
+        //     name: '箭头函数',
+        //     getName: function() {
+        //     // getName() { 
+        //         btn2.onclick = () => {
+        //             console.log(this) // 箭头函数
+        //         }
+        //     }    
+        // }
+
+        // 如果外层还是箭头函数，那么继续向往找，这是找到window
+
+        let obj = {
+            name: '箭头函数',
+            getName: () => {
+                btn2.onclick = () => {
+                    console.log(this) // 箭头函数
+                }
+            }
+        }
+        obj.getName();
+
+
+
+
+
+        // 箭头函数没有this，只能继承。箭头函数不能作为对象方法使用。
+        // 向外查找的时候，是查找外层的函数，对象不算
+    </script>
+</body>
+
+</html>

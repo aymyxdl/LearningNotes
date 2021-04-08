@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_变量提升与函数提升</title>
+</head>
+<body>
+    
+    1. 变量声明提升(严格来讲是叫：变量声明提升，省略可以叫变量提升)
+        通过var定义(声明)的变量，在定义语句之前就可以访问到
+        值：undefined
+
+    2. 函数声明提升(省略叫 函数提升)
+        通过function声明的函数，在之前就可以直接调用
+        值：函数定义（对象）
+
+    3. 问题：变量提升和函数提升是如何产生的？
+
+
+<script>
+
+    /*
+        面试题：输出 undefined
+    */
+
+    var a = 3;
+    function fn () {
+        console.log(a);
+        var a = 4;
+    };
+    fn();
+
+
+
+    // ======================
+    console.log(b);     // undefined    变量提升
+    fn2();              // 可调用        函数提升 
+    fn3();              // 会报错,这个时候遵循的是变量提升
+
+    var b = 3;          // 引申：这里在F12调试的时候，不可以打断点，是因为这一行并没有这条语句，其本质就是变量提升，放到了最开始赋值了
+                        // 代码实际在这一行，该做的早已经做完了，所以无法打断点
+                        // 补充：说错了，还是可以打断点的， 但是如果是 var b; 就不可以打断点了
+
+    function fn2 () {
+        console.log('fn2()');
+    };
+
+    var fn3 = function () {
+        console.log('fn3()');
+    };
+
+    // 其实变量提升和函数提升这一知识点，不是特别特别的透彻
+    // 因为视频中的老师他们之前讲过，所以这里没有太深入讲
+</script>
+</body>
+</html>

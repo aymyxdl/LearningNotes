@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05_Function扩展</title>
+</head>
+
+<body>
+
+    Function.prototype.bind(obj)
+        作用：将函数内的 this 绑定为 obj，并将函数返回
+    
+    面试题：区别 bind()、call() 和 apply()：
+        都能指定函数中的 this
+        call()/apply() 是立即调用函数
+        bind() 是将函数返回
+
+    <script>
+        
+        var obj = {username: 'kobe'};
+        function foo() {
+            console.log(this);
+        }
+
+        foo()   // 这个时候的this的window
+        foo.call(obj);  // 这个时候的this是obj
+        foo.apply(obj)  // 当没有传入参数的时候，appy和call一模一样
+
+        // ===========
+
+        
+        function foo2(data, data2) {
+            console.log(this, data, data2);
+        }
+
+        // 传入参数的形式
+        foo2.call(obj, 1, 2);      // 直接从第二个参数开始，依次传入
+        foo2.apply(obj, [2, 3]);   // 第二个参数必须是数组，依次放在数组中
+
+        // bind的特点：绑定完this不会立即调用当前的函数，而是将函数返回
+        // bind传参的方式和call一样
+        var bar = foo2.bind(obj, 1, 2);
+        console.log(bar);
+
+        foo2.bind(obj, 1, 2)();
+
+        // 那么既然方式和call一样，为什么还要多此一举弄个bind呢？
+        // 答：在回调中使用
+
+        // 比如定时器, 一般情况下，这个回调的this是window
+        setTimeout(function() {
+            console.log(this);
+        }, 1000)
+
+        // 但是有时候我希望这个this是别的，该怎么办？
+        setTimeout(function() {
+            console.log(this);
+        }.bind(obj), 1000)      // 简直就是秒
+
+
+
+
+    </script>
+</body>
+
+</html>
