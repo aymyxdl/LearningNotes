@@ -34,7 +34,7 @@
         console.log(a + 3);
     })();
     var a = 4;
-    console.log(4); // 这两个a 互不影响
+    console.log(a); // 这两个a 互不影响
 
 
     (function () {
@@ -55,6 +55,7 @@
     console.log(window.a);      // 4
     // 问题：
     // 说实话，有点不理解， a 怎么就成了全局变量了
+    // 这里的window.a 是上面声明的变量a，刚好变量a也是4，凑巧了而已
 </script>
 </body>
 </html>

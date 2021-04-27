@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_借用构造函数继承</title>
+</head>
+<body>
+    方式2： 借用构造函数继承(假的)
+        1. 套路：
+            1. 定义父类型构造函数
+            2. 定义子类型构造函数
+            3. 在子类型构造函数中调用父类型构造
+
+        2. 关键：
+            1. 在子类型构造函数中通过call()调用父类型构造函数
+
+<script>
+    function Person (name, age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    function Student(name, age, price) {
+        Person.call(this, name, age);   // 相当于：this.Person(name, age)
+        this.price = price
+        // 这里Student没有person函数，于是借用了Person
+        // 因此这个call来借用执行
+        // 谁来执行？this，那么this又是谁？ 下面new 的那个 s
+    }
+
+    var s = new Student('Tom', 29, 14000);
+    console.log(s.name, s.age, s.price);
+
+    // 实际上没没有继承，只是借用了函数，简化代码而已
+    // 继承实际上是需要借用父类的方法
+    // 而这种方式根本没有父类
+
+    // 于是产生了 原型链+借用构造函数的组合继承
+</script>
+</body>
+</html>

@@ -98,3 +98,12 @@ npm i -D less-loader@7.0.1
 但是这个 less是从属于 less-loader的
 （意味着package.json 中只有less-loader，而没有less）
 另外，卸载 less-loader，less也会自动卸载
+
+
+
+
+# 忽略文件夹中深层次的node_modules
+
+在.gitignore 中设置
+node_modules/$
+遇到 node_modules 文件夹不进行提交

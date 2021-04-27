@@ -9,13 +9,12 @@
 </head>
 
     就是扩展运算符(这个老师讲课的时候挺早的，估计他也只是没搞清真正的名字，直接叫点点点)
-    是我错了， 三点运算符可以有多个用途，可以作为扩展运算符，也可以作为 其它运算符操作(好像是叫 剩余运算符？)
-    扩展运算符只是它的一个功能
+    扩展运算符用作展开的时候，也叫做展开运算符
 
     1. rest(可变)参数
         用来取代 arguments，但比 arguments 灵活，只能是最后部分形参参数
 
-    2. 扩展运算符
+    2. 展开运算符
 
 <body>
     
@@ -24,7 +23,7 @@
         function foo(a, b) {
             console.log(arguments);
             // arguments.callee()
-            // callee 就是指向函数本身，有时候递归就用callee
+            // callee 就是指向函数本身，有时候递归就用callee(逼格高？)
             // 相当于 Funciton.prototype.constructor 属性？
 
             // arguments 是个伪数组，因为没有其它数组的方法，只有length
@@ -51,13 +50,47 @@
         }
         foo1(3, 5, 6, 'asa', {});
 
-        // 2. 作为 扩展运算符 使用
+        // 2. 作为 展开运算符 使用
 
         let arr = [1, 6];
         let arr1 = [2, 3, 4, 5];
         arr = [1, ...arr1, 6];
         console.log(arr);
         console.log(...arr);
+
+
+        // ... 是浅拷贝
+        var obj = {
+            a: 'a',
+            b: 'b',
+            c: {
+                d: 'd',
+                e: 'e',
+                f: {
+                    g: 'g'
+                }
+            }
+        }
+
+        var obj2 = {...obj, name: 'name'};
+        obj2.c.d = 'd has changed';
+        console.log(obj, obj2);
+
+
+        // arguments.callee 在递归中的使用
+        /* 
+        function ful(i) {
+            if (i === 1) {
+                return 1;
+            } else {
+                // return ful(i - 1) + i;
+                // console.log(arguments);
+                return arguments.callee(i - 1) + i;
+            }
+        }
+
+        console.log(ful(4));
+         */
 
     </script>
 </body>

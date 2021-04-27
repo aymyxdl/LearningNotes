@@ -38,6 +38,15 @@
     s.setName('Bob');
     s.setPrice(16000);
     console.log(s.name, s.age, s.price);
+
+    // 这个组合继承和 extends 感觉还是有点区别的
+    console.log(Student.__proto__ === Person, Student.__proto__ === Function.prototype);
+    // 感觉需要设置 Student.__proto__ = Person，这样就跟extends一样了？
+    class B {}
+    class A extends B {}
+    console.log(A.__proto__ === B);
+    console.log(A.__proto__.__proto__ === Function.prototype);
+    console.log(B.__proto__ === Function.prototype);
 </script>
 </body>
 </html>

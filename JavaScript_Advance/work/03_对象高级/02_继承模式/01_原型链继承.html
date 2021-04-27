@@ -53,7 +53,7 @@
     sub.showSubProp();
     sub.showSuperProp();
 
-    console.log(sub.constructor);   // 按理来说需要Sub,但是却是super
+    console.log(sub.constructor);   // 这个 constructor 是通过 sub.__proto__ 找到的，也就是 sub.__proto__.constructor === Sub.prototype.constructor
     console.log(sub);
     console.log(sub.__proto__.__proto__ === Super.prototype);
 

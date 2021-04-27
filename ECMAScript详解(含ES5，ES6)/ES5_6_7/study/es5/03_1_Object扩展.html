@@ -12,7 +12,7 @@
     
     1. Object.create(prototype, [descriptors])
         作用：以指定对象为原型创建新的对象
-        为新的对象指定新的属性，并对实行进行描述
+        为新的对象指定新的属性，并对属性进行描述
             value：指定值
             writable：标识当前属性值是否可修改，默认为false
             configurable：标识当前属性是否可以被删除，默认为false
@@ -69,7 +69,7 @@
         
         console.log(obj3.sex, '---------');
         obj3.sex = 'female';
-        console.log(obj3.sex);  // 会发现，没有修改成功，这个因为配置对象中默认为不可修改
+        console.log(obj3.sex);  // 现在可以修改成功，这个因为配置对象中 writable 设为了true
         
         for(let i in obj3) {
             console.log(i);

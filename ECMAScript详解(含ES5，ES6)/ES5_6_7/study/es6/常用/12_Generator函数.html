@@ -8,7 +8,22 @@
   <title>12_Generator函数</title>
 </head>
 <body>
-  
+
+  Generator函数
+    概念：
+
+      1. ES6 提供的解决异步编程的方案之一
+      2. Generator 函数是一个状态机，内部封装了不同状态的数据
+      3. 用来生成遍历器对象
+      4. 可暂停函数（惰性求值），yield 可暂停，next 方法可启动。每次返回的是 yield 后的表达式结果
+
+    特点：
+      1. function 与函数名之间有一个星号
+      2. 内部用 yield 表达式来定义不同的状态
+      3. generator 函数返回的是指针对象（iterator），而不会执行函数内部逻辑
+      4. 调用 next 方法函数内部逻辑开始执行，遇到 yield 表达式停止，返回{value: yield 后的表达式结果/undefined, done:true/false}
+      5. 再次调用 next 方法会从上一次停止时的 yield 处开始，直到最后
+      6. yield 语句返回结果通常为 undefined，当调用 next 方法时传参内容会作为启动时（上一个）yield 语句的返回值
 
   <script>
     // 小试牛刀
@@ -37,7 +52,7 @@
     // next方法执行了,但是发现只执行到了第一句
     // 并且hello也不知道去哪里了
 
-    // 这是因为 generator函数 会暂停在yield 代码处,并且返回 yield后面的 字符串 或者 表达式执行的结果
+    // 这是因为 generator函数 会暂停在yield 代码处,并且返回 yield后面的 字符串(还有对象等类型) 或者 表达式执行的结果
     // 可以将 yield 'hello' 换成 yield console.log(123); 或者换成 yield 1+2;
     // 然后接收返回结果看看
     // 而且结果在返回形式和 generator 返回的结果一样 { value: xxx, done: false } 的形式
