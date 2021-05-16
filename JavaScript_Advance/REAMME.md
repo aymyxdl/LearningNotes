@@ -1,5 +1,5 @@
 # JavaScript高级
-
+(已完成)
 
 
 ## 数据类型
@@ -1612,5 +1612,7 @@ var f = fn1();
 
 对应视频：
 对应笔记：JavaScript_Advance\work\补充\03_内存溢出与内存泄漏.html
+
+
 
 

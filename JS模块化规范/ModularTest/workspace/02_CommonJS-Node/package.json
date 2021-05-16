@@ -1,0 +1,7 @@
+{
+  "name": "02_commonjs-node",
+  "version": "1.0.0",
+  "dependencies": {
+    "uniq": "^1.0.1"
+  }
+}

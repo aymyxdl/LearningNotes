@@ -1,0 +1,28 @@
+<!--index.wxml-->
+<view class="container">
+  <view bindtap="clickMe" data-nid="123">点我跳转</view>
+  <view class="wrap">
+    <view class="title">第一场 排场吃东西</view>
+    <view class="tips">
+      <view class="date">2020年01月01日 23:22</view>
+      <view class="count">111</view>
+    </view>
+    <view class="mainImg">
+      <image src="/images/Sunset.jpg"></image>
+    </view>
+    <view class="imgContainer">
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+      <image src="/images/Sunset.jpg"></image>
+    </view>
+  </view>
+</view>
+
+<tab selected="0" />

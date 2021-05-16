@@ -1,0 +1,16 @@
+<!--pages/redirect/redirect.wxml-->
+<text>pages/redirect/redirect.wxml</text>
+{{msg}}
+{{second}}
+
+<button bindtap="modify">change</button>
+<button bindtap="modify2">二次修改</button>
+<button bindtap="getUserInfo">获取信息</button>
+<button open-type="getUserInfo" bindgetuserinfo="log">11111</button>
+
+
+<view bindtap="getLocal">{{localPath}}</view>
+
+
+
+

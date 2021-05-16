@@ -1,0 +1,37 @@
+/* pages/publish/publish.wxss */
+Page {
+  height: 150%;
+}
+.imgContainer image {
+  width: 200rpx;
+  height: 200rpx;
+  padding: 10rpx;
+}
+
+.container {
+  display: flex;
+  flex-flow: row;
+}
+
+.container .item {
+  flex: 1;
+}
+
+.container .item image{
+  width: 100%;
+}
+
+
+.container2 {
+  -moz-column-count: 2;
+  -webkit-column-count: 2;
+  column-count: 2;
+
+  -moz-column-gap: 10rpx;
+  -webkit-column-gap: 10rpx;
+  column-gap: 10rpx;
+}
+
+.container2 image {
+  width: 100%; 
+}

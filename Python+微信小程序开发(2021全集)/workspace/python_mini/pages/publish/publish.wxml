@@ -1,0 +1,40 @@
+<!--pages/publish/publish.wxml-->
+<view catchtap="uploadImg">
+  请上传图片
+</view>
+<view class="imgContainer">
+  <image wx:for="{{imgList}}" wx:key="index" src="{{item}}"></image>
+</view>
+
+<view wx:for="{{upList}}" wx:key="item">
+  {{item.title}}
+  <progress percent="{{item.percent}}"></progress>
+</view>
+
+
+<button bindtap="update">更新</button>
+<button bindtap="reset">重置</button>
+<!-- <tab selected="1" /> -->
+
+<view class="container">
+  <view class="item">
+    <image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3228549874,2173006364&fm=26&gp=0.jpg"></image>
+    <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1838988081,2167427448&fm=26&gp=0.jpg"></image>
+  </view>
+  <view class="item">
+    <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3225163326,3627210682&fm=26&gp=0.jpg"></image>
+    <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3365503159,1655500687&fm=26&gp=0.jpg"></image>
+  </view>
+</view>
+
+
+<view class="container2">
+  <image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3228549874,2173006364&fm=26&gp=0.jpg" mode="widthFix"></image>
+  <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1838988081,2167427448&fm=26&gp=0.jpg" mode="widthFix"></image>
+  <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3225163326,3627210682&fm=26&gp=0.jpg" mode="widthFix"></image>
+  <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3365503159,1655500687&fm=26&gp=0.jpg" mode="widthFix"></image>
+  <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1838988081,2167427448&fm=26&gp=0.jpg" mode="widthFix"></image>
+</view>
+
+
+

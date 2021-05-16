@@ -1,0 +1,14 @@
+<!--pages/telephone/telephone.wxml-->
+<text>手机号</text>
+<view>
+  <input value="{{phone}}" bindinput="bindPhone" placeholder="请输入手机号" />
+</view>
+<text>验证码</text>：
+
+<view catchtap="getMessageCode">点击获取验证码</view>
+
+<view>
+  <input value="{{code}}" bindinput="bindCode" placeholder="请输入验证码" />
+</view>
+
+<button catchtap="login">登录</button>
