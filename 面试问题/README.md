@@ -8,13 +8,38 @@ video和audio
 表单
 
 CSS3的新特性：
+
 选择器
+  基本选择器
+  属性选择器
+  伪类选择器
+
+弹性盒模型
 透明度
+
 圆角(border-radius)
-阴影
+阴影(box-shadow)
+边框图片(border-image)
+
+渐变
+  linear-gradient()：线性渐变。
+  radial-gradient()：径向渐变。
+
+变换(transform)
+
+动画(animation)
+
 word-wrap(允许长单词换行到下一行)
-边框图片
-@font-face
+
+@font-face(引入字体)
+
+  指定名为"myFirstFont"的字体，并指定在哪里可以找到它的URL：
+  @font-face
+  {
+  font-family: myFirstFont;
+  src: url('Sansation_Light.ttf'),
+      url('Sansation_Light.eot'); /* IE9 */
+  }
 
 
 ## requirejs
@@ -61,6 +86,14 @@ es6的模块化
 
 
 这里 AMD CMD 都是标准 然后 requirejs 和 seajs 都是浏览器端的实现
+
+
+nodejs的模块化
+module.exports = function() {
+  // ...
+}
+
+var hello = require('./hello')
 
 
 
@@ -162,6 +195,15 @@ for of 的实现 是因为数据结构上部署了 iterator 接口
 不过后面ES8 提出了 async await
 所以，生成器也不用了
 因此，iterator 更多的是用来供 for of 消费来进行 遍历
+
+
+--总结
+区别
+
+1.推荐在遍历对象的时候使用for in ,在遍历数组的时候使用for of 。
+2.for in 循环出的是key（并且key的类型是string）,for of 循环出的是value。
+3.for of 是es6引新引入的特性，修复了es5引入的for in 的不足。
+4.for of 不能循环普通的对象，需要通过Object.keys搭配使用。
 
 
 
@@ -373,6 +415,13 @@ https://www.cnblogs.com/jing-tian/p/10991431.html
 页面渲染完成后，若JS操作了DOM节点，根据JS对DOM操作动作的大小，浏览器对页面进行重绘或是重排。
 
 
+重绘:
+当元素的一部分属性发生改变，如外观、背景、颜色等不会引起布局变化，只需要浏览器根据元素的新属性重新绘制
+使元素呈现新的外观叫做重绘。 
+
+重排（回流）:当render树中的一部分或者全部因为大小边距等问题发生改变而需要DOM树重新计算的过程
+
+重绘不一定需要重排（比如颜色的改变），重排必然导致重绘（比如改变网页位置）
 
 
 
@@ -541,6 +590,63 @@ AllProject\vue3-create-project-default\src\components\mianshi\updatedLoop.vue
 
 ## Jquery的核心实现
 
+
+
+
+## 微任务 宏任务
+
+
+
+
+
+
+
+
+## promise
+
+
+面试 2 + 2 + 1 原则：
+
+2个问题超过其他人，或者超过面试官预期
+2个问题一般般，和别人差不多
+1个问题答不出来
+
+这样基本面试就没问题了
+
+
+
+1.什么是promise
+
+  1.抽象表达: 
+    Promise是JS中进行异步编程的新的解决方案(旧的是谁?)
+
+  2.具体表达:
+    从语法上来说: Promise是一个构造函数
+    从功能上来说: promise对象用来封装一个异步操作并可以获取其结果
+
+
+
+
+2.promise有什么用
+
+  1. 指定回调函数的方式更加灵活: 可以在请求发出甚至结束后指定回调函数
+  2. 支持链式调用, 可以解决回调地狱问题
+
+
+    1.
+    旧的: 必须在启动异步任务前指定
+    promise: 启动异步任务 => 返回promie对象 => 给promise对象绑定回调函数(甚至可以在异步任务结束后指定)
+
+    2.
+    什么是回调地狱? 回调函数嵌套调用, 外部回调函数异步执行的结果是嵌套的回调函数执行的条件
+    回调地狱的缺点?  不便于阅读 / 不便于异常处理
+    解决方案? promise链式调用
+    终极解决方案? async/await
+
+
+
+回调函数嵌套会导致代码向右编程
+promise可以链式编程
 
 
 
