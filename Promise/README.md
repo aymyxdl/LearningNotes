@@ -39,7 +39,7 @@
 2.我没有亲自调用
 3.最终执行了
 
-所以，setTimeout不是回调函数
+所以，setTimeout不是回调函数（这个就有点抠字眼了，严格来说，我确实没有定义setTimeout，我只是定义了参数中的回调函数）
 
 
 
@@ -197,7 +197,7 @@ promise: 启动异步任务 => 返回promie对象 => 给promise对象绑定
 
 /* 
   2.2. 使用promise的链式调用解决回调地狱
- */
+*/
 
 情景：需要first的结果给second，second的结果给thrid
 
